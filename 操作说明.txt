@@ -1,0 +1,185 @@
+1，建好目录结构
+2，在cmd输入  npm init -y
+3，安装jquery npm i jquery -s
+4，main.js中加入  import $ from 'jquery'
+5，这时候直接再index中引用main.js会失败，因为 import $ from 'jquery' 是ES6语法，浏览器还不能解析
+6，这时候就需要使用webpack进行打包，让浏览器解析成功，webpack踩坑点：
+    -webpack .\src\main.js  .\dist\bundle.js 命令在4.0版本后不一样了，需要安装webpack-cli
+    -npm install --save-dev webpack-cli
+    -然后再执行：webpack .\src\main.js -o  .\dist\bundle.js 才能成功
+    -ps:如果你安装的是全局webpack-cli,会提示你webpack not found,这时候就需要：
+    -$ npm install --save-dev webpack
+    -然后再webpack .\src\main.js -o  .\dist\bundle.js
+7，使用配置文件配置webpack实现webpack .\src\main.js -o  .\dist\bundle.js命令
+8， -使用webpack-dev-server：安装npm i webpack-dev-server -D  主要目的是打开网页和热部署
+    -在package.json中的scripts中加上："dev": "webpack-dev-server"
+    -运行：npm run dev
+    -修改Index的引用路径为根路径  src="/bundle.js"
+    -package.json配置 更改端口  无刷新更新（热部署）  "dev": "webpack-dev-server --hot --port 3000"
+
+9,html-webpack-plugin插件  这个插件使用后，不需要我们手动引入bundle.js了，它会完成
+    -安装：npm i html-webpack-plugin -D
+    -使用：在webpack.config中配置
+        -const htmlWebpackPlugin = require('html-webpack-plugin')
+            /*配置htm--webpack-plugin插件*/
+             plugins: [
+                 new htmlWebpackPlugin({
+                     //指定要生成的模板
+                     template: path.join(__dirname,'./src/index.html'),
+                     //生成的模特名称
+                     filename: "index.html"
+                 })
+             ]
+    -作用：在内存中生成指定模板，而且把打包好的bundle.js插入进去，不需要我们手动引入了
+
+10, -css样式处理：安装style-loader 和 css-loaer : npm i style-loader css-loader -D
+    -main.js中引入css样式：import "./css/index.css"
+    -配置webpack.config:
+        - /*配置第三方样式处理器loader*/
+             module: {
+                 rules: [
+                     /*test为对象，
+                     /\.css$/为正则表达式表示处理css文件，
+                     use中的内容:使用两个loader处理css文件
+                     */
+                     {test:/\.css$/,use:['style-loader','css-loader']}
+                 ]
+             }
+11，-使用url-loader处理图片:安装url-loader
+        -npm i url-loader file-loader -D  安装url-loader的同时也要安装file-loader
+        -配置webpack.config.js:
+            -{test:/\.(jpg|png|gif|bmp|jpeg)$/,use:'url-loader'},
+        -在页面引用
+12, -使用url-loader处理字体文件（比如bootstrap的字体图标）
+    -安装bootstrap 3.3.7  :npm i bootstrap@3.3.7 -D
+    -在main.js中引入：import 'bootstrap/dist/css/bootstrap.min.css'
+    -配置webpack.config.js：{test:/\.(ttf|eot|svg|woff|woff2)$/,use:'url-loader'},一共有五种字体文件
+
+13，使用babel:作用，将高级的ES6语法编译为低级的语法，以至于可以使用ES6，比如其中的class对象语法
+        -安装；webpack4.x安装babel和教程不一样：
+            第一步：安装两套包：
+            -npm i @babel/core babel-loader @babel/plugin-transform-runtime -D
+            -npm i @babel/preset-env @babel/plugin-proposal-class-properties @babel/runtime -D
+            第二部：配置webpack.config文件
+            -{test: /\.js$/,use:'babel-loader', exclude:/node_modules/},其中exclude:/node_modules/表示
+             不编译该包下的js文件，不写的话，不仅慢，而且一堆问题
+            第三步：创建babel的配置文件（根目录下）：.babelrc文件
+            -写上{
+               "presets": ["@babel/preset-env"],
+               "plugins": ["@babel/plugin-transform-runtime","@babel/plugin-proposal-class-properties"]
+             }
+             -运行成功
+14, -vue结合webpack:
+        -安装vue:npm i vue -s
+        -引入vue:import Vue from 'vue'  *注意，这样直接引用不配置引用路径，将不会成功
+        -webpack.config.js中配置引用路径:
+            - resolve: {
+                     alias: {
+                         "vue$":"vue/dist/vue.js"
+                     }
+                 }
+        -在index.html中使用vue
+15, -.vue组件文件在webpack中结合：
+        -创建.vue文件，譬如：login.vue
+        -vue文件是一个纯组件文件，有<template><script><style>
+        -在template中编写组件
+        -在main.js中引入组件:import login from './login.vue'
+        -安装解析vue的插件:npm i vue-loader vue-template-compiler -D
+        -在vue配置文件中配置vue解析插件:{test: /\.vue$/,use:'vue-loader'},
+        -添加解析插件的伴生插件:
+            *定义常量
+            const VueLoaderPlugin = require('vue-loader/lib/plugin');
+            *插件引入
+             plugins: [
+                new VueLoaderPlugin()
+             ]
+        -直接在Index页面引入插件即可
+
+16: -export default 和 export
+    -export:表示向外暴露成员，这样外部可以引入成员
+    -export default可以用任何变量名接收
+    -export变量必须{xxx}的形式接收，且名称和引入源必须一致,{xx,xx}使用逗号隔开可以引入多个，若要指定名称则要xxx as xxx
+    -export default 只能允许有一个而export可以定义多个
+
+17: -webpack中使用路由:vue-router
+    -安装路由:npm i vue-router -s
+    -创建两个.vue组件文件：如 Account.vue 和 GoodsList.vue文件并写好组件
+    -在main.js中引入和使用路由:
+        -import VueRouter from 'vue-router'
+        -Vue.use(VueRouter)
+    -导入组件
+        -import account from './Account.vue'
+        -import goodslist from './GoodsList.vue'
+    -定义路由
+        var router = new VueRouter({
+            routes:[
+                {path:xxx,component:xxx}
+            ]
+    -挂载路由到vm实例上
+    -在主组件（就是渲染到Index的组件,这里是login.vue）上布置路由展示坑：
+        -<router-link to="/account">Account</router-link>
+        -<router-link to="/goodslist">Aoodslist</router-link>
+        -<router-view></router-view>
+    -完成
+18: -实现子路由：
+    -在上面的路由基础上，创建两个子路由
+    -引入子路由
+    -定义子路由：这里挂在account上
+        - children:[
+               {path:'accountson',component:accountson},
+               {path:'accountson2',component:accountson2},
+          ]
+     -将子路由在父路由里面展示（这里挂在account.vue里面展示）：
+        -<!--子组件展示-->
+        -<router-link to="/account/accountson">accountson</router-link>
+        -<router-link to="/account/accountson2">accountson2</router-link>
+        -<router-view></router-view>
+     -完成
+
+19： -scoped的作用是该css样式只作用于当前组件，不写的话变成全局的样式，还有一个lang属性，用于支持SCSS等格式
+
+20： -抽离路由模块：
+     -新建一个js文件：router.js
+     -把路由模块剪切到里面，import VueRouter from 'vue-router'也要带上
+     -export default router 向外暴露路由对象
+     -main.js中直接引用:import router from './router'
+     -完成
+21， -使用mintui(太坑了，跳过，改学MUI):
+        -安装mintui:npm install mint-ui -S
+        -引入vue.js
+        -引入mintui:import MintUI from 'mint-ui'
+        -引入mintui样式文件:import 'mint-ui/lib/style.css'
+        -使用mintui:Vue.use(MintUI)
+        -注意，全局安装完mint-ui后，CSS库里面的组件直接粘贴到组件文件里面就能用了
+22， -使用MUI(这个UI框架类似于Bootstrap)：
+        -下载：github上下载zip压缩包
+        -把dist复制到项目中
+        -main.js中导入样式:import './lib/mui/css/mui.css'
+        -复制组件代码片段到组件文件中即可
+
+23, -项目操作说明:
+    -需要导入对应的css样式，比如图标
+    -引用路径要正确
+    -想要修改样式，自己修改源码搞起来
+    项目day1:实现基本架构，引入顶部和底部，修改icon图标，修改图标样式
+        -第一步:copy之前的项目架构，cnpm i之后，删除不必要的
+        -第二步:创建主页组件，引入顶部和底部，并添加修改样式，自行发挥
+        -修改样式直接弄源码了
+24, -使用vant组件代替mintui
+    -安装:npm i vant -S
+    -安装插件:npm i babel-plugin-import -D
+    -在.babelrc中配置:
+        "plugins": [
+            ["import", {
+              "libraryName": "vant",
+              "libraryDirectory": "es",
+              "style": true
+            }]
+          ]
+    -只能使用按需引用，以按键组为例:(在引入了vue.js前提下)
+        import Button from 'vant/lib/button'
+        import 'vant/lib/button/style'
+        Vue.use(Button)
+        接着可以使用按键组件了
+
+

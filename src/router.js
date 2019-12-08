@@ -1,0 +1,26 @@
+/*抽离的路由组件*/
+import VueRouter from 'vue-router'
+/*路由组件*/
+import index from './components/IndexContainer.vue'
+import cart from './components/CartContainer.vue'
+import mine from './components/MineContainer.vue'
+import list from './components/ListContainer.vue'
+import indexgoodsdetails from './components/GoodsDetails/IndexGoodsDetails.vue'
+import onegoods from './components/OneGoods.vue'
+var router = new VueRouter({
+    routes:[
+        /*默认访问组件*/
+        {path:'/',redirect:"/index"},
+        {path: '/index',component:index},
+        {path: '/list',component:list},
+        {path: '/cart',component:cart},
+        {path: '/mine',component:mine},
+        {path: '/list/all/:id',component:onegoods},
+        {path: '/index/everyday/:id',component:onegoods},
+    ],
+    /*路由高亮*/
+    linkActiveClass: 'mui-active',/*MUI的高亮*/
+});
+
+/*向外暴露router*/
+export default router;
