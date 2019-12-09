@@ -5,8 +5,8 @@ import index from './components/IndexContainer.vue'
 import cart from './components/CartContainer.vue'
 import mine from './components/MineContainer.vue'
 import list from './components/ListContainer.vue'
-import indexgoodsdetails from './components/GoodsDetails/IndexGoodsDetails.vue'
 import onegoods from './components/OneGoods.vue'
+import buygoods from './components/BuyGoodsComponents/BuyGoods.vue'
 var router = new VueRouter({
     routes:[
         /*默认访问组件*/
@@ -15,6 +15,7 @@ var router = new VueRouter({
         {path: '/list',component:list},
         {path: '/cart',component:cart},
         {path: '/mine',component:mine},
+        {path: '/buy',component:buygoods},
         {path: '/list/all/:id',component:onegoods},
         {path: '/index/everyday/:id',component:onegoods},
     ],

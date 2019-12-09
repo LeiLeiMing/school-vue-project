@@ -60,6 +60,21 @@ Vue.use(Sku);
 /*复选框*/
 import { Checkbox, CheckboxGroup } from 'vant';
 Vue.use(Checkbox).use(CheckboxGroup);
+/*商品购买栏*/
+import {
+    GoodsAction,
+    GoodsActionIcon,
+    GoodsActionButton
+} from 'vant';
+Vue
+    .use(GoodsAction)
+    .use(GoodsActionIcon)
+    .use(GoodsActionButton);
+/*提交订单*/
+import { SubmitBar } from 'vant';
+Vue.use(SubmitBar);
+import { Cell, CellGroup } from 'vant';
+Vue.use(Cell).use(CellGroup);
 /*首页组件*/
 import App from './App.vue'
 let vue = new Vue({

@@ -1,4 +1,4 @@
-<!--商品详情-->
+<!--全部商品页面的内容-->
 <template>
     <div>
         <!--下拉刷新-->
@@ -10,6 +10,7 @@
                 loading-text="拼命加载中..."
         >
             <!--商品卡片-->
+            <!--困惑，为什么这里不需要加router-view就能了呢，而且是转跳效果-->
             <router-link v-for="(g,index) in goods" :key="index" :to="'/list/all/'+index">
                 <van-card :price=g.price :desc=g.desc :title=g.title :thumb=g.thumb />
             </router-link>
@@ -50,8 +51,6 @@
                 }, 500);
             },
         },
-        components:{
-        }
     }
 </script>
 <style scoped>

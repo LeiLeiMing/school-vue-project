@@ -1,58 +1,32 @@
+<!--底部导航栏+导航栏路由的页面-->
 <template>
     <div>
-        <div class="mui-content">
-            <div>
-                <!--标签栏-->
-                <tabcomponents></tabcomponents>
-            </div>
-        </div>
+        <!--路由坑，用来展示路由到的页面-->
+        <router-view></router-view>
+        <nav class="mui-bar mui-bar-tab">
+            <!--这里实现路由高亮-->
+            <router-link class="mui-tab-item" to="/index">
+                <span class="mui-icon mui-icon-home"></span>
+                <span class="mui-tab-label">首页</span>
+            </router-link>
+            <router-link class="mui-tab-item " to="/list">
+                <span class="mui-icon mui-icon-list"></span>
+                <span class="mui-tab-label">全部</span>
+            </router-link>
+            <router-link class="mui-tab-item " to="/cart">
+                <span class="mui-icon mui-icon-extra mui-icon-extra-cart"><span class="mui-badge">9</span></span>
+                <span class="mui-tab-label">购物车</span>
+            </router-link>
+            <router-link class="mui-tab-item " to="/mine">
+                <span class="mui-icon mui-icon-person"></span>
+                <span class="mui-tab-label">我的</span>
+            </router-link>
+        </nav>
     </div>
 </template>
 <script>
-    import tabcomponents from './TabComponents.vue'
-    import listcontainer from '../ListContainer.vue'
-    import display from './DisplayValue.vue'
-    export default {
-        components:{
-            tabcomponents,
-            listcontainer,
-            display
-        },
-        methods:{
 
-        }
-    }
 </script>
 <style scoped>
-    .title{
-        margin: 20px 15px 10px;
-        color: #6d6d72;
-        font-size: 15px;
-    }
 
-    .oa-contact-cell.mui-table .mui-table-cell {
-        padding: 11px 0;
-        vertical-align: middle;
-    }
-
-    .oa-contact-cell {
-        position: relative;
-        margin: -11px 0;
-    }
-
-    .oa-contact-avatar {
-        width: 75px;
-    }
-    .oa-contact-avatar img {
-        border-radius: 50%;
-    }
-    .oa-contact-content {
-        width: 100%;
-    }
-    .oa-contact-name {
-        margin-right: 20px;
-    }
-    .oa-contact-name, oa-contact-position {
-        float: left;
-    }
 </style>

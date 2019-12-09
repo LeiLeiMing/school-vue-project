@@ -1,5 +1,6 @@
+<!--商品详情页面-->
 <template>
-    <div style="background-color: white">
+    <div>
         <van-sticky :offset-top="0">
             <router-link :to="'/'+url">
                 <van-nav-bar style="height: 45px" title="爆款衣服" left-arrow/>
@@ -22,17 +23,17 @@
         <span>
             <h5>规格选择</h5>
         </span>
-        <div style="margin-left: 120px">
-            <van-button plain type="primary">加入购物车</van-button>
-            <van-button type="danger">立即购买</van-button>
-        </div>
-        <br><br><br>
-        <br><br><br>
-        <br><br><br>
+        <!--购买栏-->
+        <van-goods-action>
+            <van-goods-action-icon icon="chat-o" text="客服"  />
+            <van-goods-action-icon icon="cart-o" text="购物车" />
+            <van-goods-action-button type="warning" text="加入购物车" />
+            <van-goods-action-button type="danger" text="立即购买"  />
+        </van-goods-action>
+        <!---->
     </div>
 </template>
 <script>
-
     export default {
         data(){
             return{

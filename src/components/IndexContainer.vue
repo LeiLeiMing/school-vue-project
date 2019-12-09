@@ -1,5 +1,7 @@
+<!--首页-->
 <template>
     <div>
+        <!--顶部-->
         <toptab></toptab>
         <!--轮播图-->
         <van-swipe :autoplay="3000" indicator-color="blue" :height="220" >
@@ -7,10 +9,6 @@
                 <img class="back" v-lazy="image.url" >
             </van-swipe-item>
         </van-swipe>
-        <!--图片资源：http://518taole.7-orange.cn/homead2.gif-->
-        <!--菜头：http://518taole.7-orange.cn/homead2.gif-->
-        <!--鱼头：https://img.ddimg.mobi/3f96191b097cd1562204510108.jpg-->
-        <!--早餐：https://img.ddimg.mobi/baf53e7d1e9ce1561980371874.jpg-->
         <!--好看用的图片块-->
         <van-image
                 width="100%"
@@ -27,9 +25,6 @@
         <!--/分区-->
         <!--为了好看：组件中插入组件-->
         <!---->
-        <!--每日精选-->
-
-        <!--/每日精选-->
         <!--宫格展示商品-->
         <div>
             <h4>每日精选</h4>
@@ -46,17 +41,14 @@
                 </van-grid-item>
             </van-grid>
         </div>
-
-       <br><br>
-       <br><br>
-       <br><br>
-       <br><br>
+        <!--底部tab栏-->
+        <apptab></apptab>
     </div>
 </template>
 <script>
     /*引入组件中的组件*/
-    import viewundersort from './components-son/ViewUnderSort.vue'
     import toptab from '../components/TabComponents/AppTop.vue'
+    import apptab from '../components/TabComponents/AppTab.vue'
     export default {
         data(){
             return{
@@ -91,8 +83,8 @@
             }
         },
         components:{
-            viewundersort,
-            toptab
+            toptab,
+            apptab
         }
     }
 </script>

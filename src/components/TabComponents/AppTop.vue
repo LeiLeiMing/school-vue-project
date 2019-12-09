@@ -1,3 +1,4 @@
+<!--搜索栏-->
 <template>
     <div>
         <van-sticky :offset-top="0">

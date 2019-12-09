@@ -1,3 +1,4 @@
+<!--购物车页面-->
 <template>
     <div>
         <van-nav-bar title="购物车"/>
@@ -27,7 +28,9 @@
         <div v-if="cartgoods.length!=0">
             <van-sticky>
                 <div style="height: 50px;background-color: white;">
-                     <van-button type="danger"  style="float: right">提交订单</van-button>
+                    <router-link to="/buy">
+                        <van-button type="danger" round style="float: right">提交订单</van-button>
+                    </router-link>
                     <span style="float:right;text-align: center;line-height: 50px;">
                         合计：<span style="color: red">￥1000</span>
                     </span>
@@ -69,9 +72,12 @@
                 </van-grid-item>
             </van-grid>
         </div>
+        <!--底部导航栏-->
+        <apptab></apptab>
     </div>
 </template>
 <script>
+    import apptab from '../components/TabComponents/AppTab.vue'
     export default {
         data(){
             return{
@@ -90,7 +96,9 @@
                 ]
             }
         },
-
+        components:{
+            apptab
+        }
     }
 </script>
 <style>

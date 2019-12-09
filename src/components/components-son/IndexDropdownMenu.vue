@@ -1,3 +1,4 @@
+<!--全部商品页面的筛选栏-->
 <template>
     <div>
         <van-dropdown-menu>
