@@ -26,6 +26,8 @@
                     {price:"20.00",desc:"描述信息:好东西好东西好东西好东西",title:"爆款春夏潮流短袖",thumb:"https://img.yzcdn.cn/vant/t-thirt.jpg"},
                     {price:"20.00",desc:"描述信息:好东西好东西好东西好东西",title:"爆款春夏潮流短袖",thumb:"https://img.yzcdn.cn/vant/t-thirt.jpg"},
                     {price:"20.00",desc:"描述信息:好东西好东西好东西好东西",title:"爆款春夏潮流短袖",thumb:"https://img.yzcdn.cn/vant/t-thirt.jpg"},
+                    {price:"20.00",desc:"描述信息:好东西好东西好东西好东西",title:"爆款春夏潮流短袖",thumb:"https://img.yzcdn.cn/vant/t-thirt.jpg"},
+                    {price:"20.00",desc:"描述信息:好东西好东西好东西好东西",title:"爆款春夏潮流短袖",thumb:"https://img.yzcdn.cn/vant/t-thirt.jpg"},
                 ],
                 /*上拉加载用的数据*/
                 loading: false,

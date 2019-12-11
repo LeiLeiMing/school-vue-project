@@ -2,9 +2,7 @@
 <template>
     <div>
         <van-sticky :offset-top="0">
-            <router-link :to="'/'+url">
-                <van-nav-bar style="height: 45px" title="爆款衣服" left-arrow/>
-            </router-link>
+            <van-nav-bar style="height: 45px" title="爆款衣服" left-arrow  @click-left="onClickLeft"/>
         </van-sticky>
         <van-image
                 width="100%"
@@ -35,12 +33,12 @@
 </template>
 <script>
     export default {
-        data(){
-            return{
-                /*挂载路由传过来的id*/
-                url:this.$route.path.split("/")[1]
+        methods:{
+            onClickLeft:function () {
+                /*返回上一页*/
+                this.$router.go(-1)
             }
-        },
+        }
     }
 </script>
 <style scoped>

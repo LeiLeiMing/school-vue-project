@@ -1,7 +1,7 @@
 <!--购物车页面-->
 <template>
     <div>
-        <van-nav-bar title="购物车"/>
+        <van-nav-bar title="购物车" right-text="删除"/>
         <div v-if="cartgoods.length==0">
             <van-image
                     width="100%"
@@ -35,11 +35,10 @@
                         合计：<span style="color: red">￥1000</span>
                     </span>
                     <span style="float: left;margin-top: 15px;">
-                        <van-checkbox  checked-color="#07c160">全选</van-checkbox>
+                        <van-checkbox v-model="checked" checked-color="#07c160">全选</van-checkbox>
                     </span>
                 </div>
             </van-sticky>
-
             <van-card
                     num="2"
                     price="2.00"
@@ -81,6 +80,7 @@
     export default {
         data(){
             return{
+                checked: true,
                 /*购物车*/
                 cartgoods:[
                      {name:'大坛子',price:1200,url:'https://img.51miz.com/Element/00/87/17/44/0dba2479_E871744_be288ee8.png!/quality/90/unsharp/true/compress/true/format/png/fh/630'}
