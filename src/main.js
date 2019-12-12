@@ -78,6 +78,9 @@ Vue.use(Cell).use(CellGroup);
 /*弹出框*/
 import { Popup } from 'vant';
 Vue.use(Popup);
+/*分类展示tab*/
+import { Tab, Tabs } from 'vant';
+Vue.use(Tab).use(Tabs);
 /*首页组件*/
 import App from './App.vue'
 let vue = new Vue({

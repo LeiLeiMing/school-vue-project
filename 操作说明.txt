@@ -181,5 +181,9 @@
         import 'vant/lib/button/style'
         Vue.use(Button)
         接着可以使用按键组件了
-
+    git命令顺序：
+     git status
+     git add .
+     git commit -m "xxxx"
+     git push
 

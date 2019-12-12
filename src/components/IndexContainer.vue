@@ -17,9 +17,9 @@
         />
         <!--分区商品展示块-->
         <van-grid  :border="false" :column-num="5">
-            <van-grid-item v-for="(image,index) in sortimges" :key="index">
-                    <van-image round width="40px" height="40px" :src="image.url" />
-                <span style="font-size: 10px;margin-top: 10px">手机</span>
+            <van-grid-item v-for="(sortlist,index) in sortimges" :key="index">
+                    <van-image round width="40px" height="40px" :src="sortlist.url" />
+                <span style="font-size: 10px;margin-top: 10px">{{sortlist.name}}</span>
                 </van-grid-item>
         </van-grid>
         <!--/分区-->
@@ -27,19 +27,13 @@
         <!---->
         <!--宫格展示商品-->
         <div>
-            <h4>每日精选</h4>
-            <van-grid  :border="false" :column-num="2" :gutter="5">
-                <van-grid-item v-for="(image,index) in showgoods" :key="index">
-                        <router-link :to="'/index/everyday/'+index">
-                            <img width="130px" height="150px" :src=image.url />
-                        </router-link>
-                        <span style="font-size: 10px;margin-top: 10px">大头牌手机，用了头就大</span>
-                        <span>￥2000</span>
-                        <router-link :to="'/index/everyday/'+index">
-                        <span style="margin-left: 100px"><van-icon name="cart-circle-o" color="red" size="30px" /></span>
-                        </router-link>
-                </van-grid-item>
-            </van-grid>
+            <h4>每日推荐</h4>
+            <van-tabs v-model="activeName">
+                <van-tab title="新上架"  name="a"><indexrecommendnew></indexrecommendnew></van-tab>
+                <van-tab title="销量多"  name="b"><indexrecommendsellmore></indexrecommendsellmore></van-tab>
+                <van-tab title="评论多"  name="c"><indexrecommendnew></indexrecommendnew></van-tab>
+                <van-tab title="收藏多"  name="d"><indexrecommendnew></indexrecommendnew></van-tab>
+            </van-tabs>
         </div>
         <!--底部tab栏-->
         <apptab></apptab>
@@ -49,9 +43,12 @@
     /*引入组件中的组件*/
     import toptab from '../components/TabComponents/AppTop.vue'
     import apptab from '../components/TabComponents/AppTab.vue'
+    import indexrecommendnew from './IndexComponents/IndexRecommendNew.vue'
+    import indexrecommendsellmore from './IndexComponents/IndexRecommendSellMore.vue'
     export default {
         data(){
             return{
+                activeName:'a',
                 /*轮播图*/
                imges:[
                    {url:"https://img.yzcdn.cn/vant/apple-2.jpg"},
@@ -59,32 +56,25 @@
                ],
                 /*分类展示*/
                 sortimges:[
-                    {url:"https://img.yzcdn.cn/vant/cat.jpeg"},
-                    {url:"http://518taole.7-orange.cn/homead2.gif"},
-                    {url:"https://img.ddimg.mobi/3f96191b097cd1562204510108.jpg"},
-                    {url:"https://img.ddimg.mobi/baf53e7d1e9ce1561980371874.jpg"},
-                    {url:"https://img.yzcdn.cn/vant/cat.jpeg"},
-                    {url:"https://img.yzcdn.cn/vant/cat.jpeg"},
-                    {url:"http://518taole.7-orange.cn/homead2.gif"},
-                    {url:"https://img.ddimg.mobi/3f96191b097cd1562204510108.jpg"},
-                    {url:"https://img.ddimg.mobi/baf53e7d1e9ce1561980371874.jpg"},
-                    {url:"https://img.yzcdn.cn/vant/cat.jpeg"}
+                    {name:"学习用品",url:"https://img.yzcdn.cn/vant/cat.jpeg"},
+                    {name:"体育用品",url:"http://518taole.7-orange.cn/homead2.gif"},
+                    {name:"生活用品",url:"https://img.ddimg.mobi/3f96191b097cd1562204510108.jpg"},
+                    {name:"电脑",url:"https://img.ddimg.mobi/baf53e7d1e9ce1561980371874.jpg"},
+                    {name:"手机",url:"https://img.yzcdn.cn/vant/cat.jpeg"},
+                    {name:"衣服",url:"https://img.yzcdn.cn/vant/cat.jpeg"},
+                    {name:"鞋子",url:"http://518taole.7-orange.cn/homead2.gif"},
+                    {name:"家具电器",url:"https://img.ddimg.mobi/3f96191b097cd1562204510108.jpg"},
+                    {name:"单车电车",url:"https://img.ddimg.mobi/baf53e7d1e9ce1561980371874.jpg"},
+                    {name:"手办",url:"https://img.yzcdn.cn/vant/cat.jpeg"}
                 ],
-                /*商品展示*/
-                showgoods:[
-                    {url:"https://img.yzcdn.cn/vant/apple-3.jpg"},
-                    {url:"https://img.yzcdn.cn/vant/apple-3.jpg"},
-                    {url:"https://img.yzcdn.cn/vant/apple-3.jpg"},
-                    {url:"https://img.yzcdn.cn/vant/apple-3.jpg"},
-                    {url:"https://img.yzcdn.cn/vant/apple-3.jpg"},
-                    {url:"https://img.yzcdn.cn/vant/apple-3.jpg"},
-                ]
 
             }
         },
         components:{
             toptab,
-            apptab
+            apptab,
+            indexrecommendnew,
+            indexrecommendsellmore
         }
     }
 </script>
