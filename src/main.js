@@ -81,6 +81,9 @@ Vue.use(Popup);
 /*分类展示tab*/
 import { Tab, Tabs } from 'vant';
 Vue.use(Tab).use(Tabs);
+/*分割线*/
+import { Divider } from 'vant';
+Vue.use(Divider);
 /*首页组件*/
 import App from './App.vue'
 let vue = new Vue({
