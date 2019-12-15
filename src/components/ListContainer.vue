@@ -6,7 +6,7 @@
         </van-sticky>
         <!--筛选栏-->
         <van-sticky :offset-top="50">
-            <dropdownmenu></dropdownmenu>
+            <dropdownmenu ></dropdownmenu>
         </van-sticky>
         <div>
             <commoditydetails></commoditydetails>

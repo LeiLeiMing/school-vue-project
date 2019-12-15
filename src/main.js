@@ -84,6 +84,18 @@ Vue.use(Tab).use(Tabs);
 /*分割线*/
 import { Divider } from 'vant';
 Vue.use(Divider);
+/*文件上传*/
+import { Uploader } from 'vant';
+Vue.use(Uploader);
+/*地址选择*/
+import { Area } from 'vant';
+Vue.use(Area);
+/*上拉菜单*/
+import { ActionSheet } from 'vant';
+Vue.use(ActionSheet);
+/*弹出框*/
+import { Dialog } from 'vant';
+Vue.use(Dialog);
 /*首页组件*/
 import App from './App.vue'
 let vue = new Vue({

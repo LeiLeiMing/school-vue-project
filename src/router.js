@@ -7,7 +7,7 @@ import mine from './components/MineContainer.vue'
 import list from './components/ListContainer.vue'
 import onegoods from './components/OneGoods.vue'
 import buygoods from './components/BuyGoodsComponents/BuyGoods.vue'
-import more from './components/MoreContainer.vue'
+import sell from './components/SellContainer.vue'
 import minesetting from './components/MineSettingComponents/MineSetting.vue'
 var router = new VueRouter({
     routes:[
@@ -18,7 +18,7 @@ var router = new VueRouter({
         {path: '/cart',component:cart},
         {path: '/mine',component:mine},
         {path: '/buy',component:buygoods},
-        {path: '/more',component:more},
+        {path: '/sell',component:sell},
         {path: '/list/all/:id',component:onegoods},
         {path: '/index/everyday/:id',component:onegoods},
         {path: '/mine/setting',component:minesetting},
