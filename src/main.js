@@ -96,6 +96,18 @@ Vue.use(ActionSheet);
 /*弹出框*/
 import { Dialog } from 'vant';
 Vue.use(Dialog);
+/*选择器*/
+import { Picker } from 'vant';
+Vue.use(Picker);
+/*图片预览*/
+import { ImagePreview } from 'vant';
+Vue.use(ImagePreview);
+/*面板*/
+import { Panel } from 'vant';
+Vue.use(Panel);
+/*步进器*/
+import { Stepper } from 'vant';
+Vue.use(Stepper);
 /*首页组件*/
 import App from './App.vue'
 let vue = new Vue({

@@ -11,6 +11,7 @@
             return{
                 show:true,
                 areaList:area,
+                addressvalue:[],
             }
         },
         methods:{
@@ -19,14 +20,13 @@
                 this.$router.go(-1)
             },
            fromFather(){
-                this.show=false
+                this.show=false;
                 this.$emit('Cancel',this.show)
             },
             /*点击确定时，捕获选择的区域对象（data就是回调的参数）*/
             select(data){
                 this.show=false;
-                this.$emit('Cancel',this.show);
-                console.log(data[0])
+                this.$emit('Select',data,this.show);
             }
         }
     }

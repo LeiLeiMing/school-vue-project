@@ -8,7 +8,7 @@ import list from './components/ListContainer.vue'
 import onegoods from './components/OneGoods.vue'
 import buygoods from './components/BuyGoodsComponents/BuyGoods.vue'
 import sell from './components/SellContainer.vue'
-import minesetting from './components/MineSettingComponents/MineSetting.vue'
+import minesetting from './components/MineComponents/MineSetting.vue'
 var router = new VueRouter({
     routes:[
         /*默认访问组件*/
