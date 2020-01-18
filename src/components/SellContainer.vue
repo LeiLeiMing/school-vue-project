@@ -105,7 +105,9 @@
             // 返回布尔值
             beforeRead(file) {
                 if (file.type !== 'image/jpeg') {
-                   alert("请上传jpg格式图片")
+                    this.$toast({
+                        message:"请上传.jpg格式的图片"
+                    })
                     return false;
                 }
                 return true;

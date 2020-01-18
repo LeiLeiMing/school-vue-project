@@ -2,7 +2,7 @@
 <template>
     <div>
         <!--顶部-->
-        <toptab></toptab>
+        <toptab @searchGoods="getData"></toptab>
         <!--轮播图-->
         <lunbo/>
         <!--分区商品展示块-->
@@ -25,10 +25,10 @@
                       color="red"
                       title-active-color="red"
                       animated:yes>
-                <van-tab title="同城" ><indexrecommendnew></indexrecommendnew></van-tab>
-                <van-tab title="新品" ><indexrecommendsellmore></indexrecommendsellmore></van-tab>
-                <van-tab title="人气" ><indexrecommendnew></indexrecommendnew></van-tab>
-                <van-tab title="精选" ><indexrecommendnew></indexrecommendnew></van-tab>
+                <van-tab title="同城" ><indexrecommendnew @addCart="fromSon"/></van-tab>
+                <van-tab title="新品" ><indexrecommendsellmore/></van-tab>
+                <van-tab title="人气" ><indexrecommendnew /></van-tab>
+                <van-tab title="精选" ><indexrecommendnew /></van-tab>
             </van-tabs>
         </div>
         <!--底部文字-->
@@ -36,7 +36,8 @@
             <van-divider>到底啦~~</van-divider>
         </div><br><br>
         <!--底部tab栏-->
-        <apptab></apptab>
+        <!--把amount传给子组件展示-->
+        <apptab :amount="amount" ></apptab>
     </div>
 </template>
 <script>
@@ -51,6 +52,7 @@
         data(){
             return{
                 active: 0,
+                amount: 0,
             }
         },
         components:{
@@ -60,6 +62,20 @@
             indexrecommendsellmore,
             lunbo,
             sort
+        },
+        methods:{
+            fromSon:function (data) {
+                /*应该先从服务器获取amount*/
+                this.amount += data;
+                /*加完后把amount存进数据库*/
+            },
+            getData:function (data) {
+                //console.log(data)
+            }
+        },
+        /*页面加载完毕时从数据库获取最新的amount*/
+        mounted() {
+
         }
     }
 </script>

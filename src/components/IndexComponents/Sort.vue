@@ -3,8 +3,12 @@
     <div>
         <van-grid  :border="false" :column-num="5">
             <van-grid-item v-for="(sortlist,index) in sortimges" :key="index">
-                <van-image round width="40px" height="40px" :src="sortlist.url" />
-                <span style="font-size: 10px;margin-top: 10px">{{sortlist.name}}</span>
+                <router-link :to="'/sort/'+index">
+                    <van-image round width="40px" height="40px" :src="sortlist.url" />
+                </router-link>
+                <router-link :to="'/sort/'+index" style="color: black">
+                    <span style="font-size: 10px;margin-top: 10px">{{sortlist.name}}</span>
+                </router-link>
             </van-grid-item>
         </van-grid>
     </div>

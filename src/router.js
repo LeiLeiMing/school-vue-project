@@ -9,6 +9,10 @@ import onegoods from './components/OneGoods.vue'
 import buygoods from './components/BuyGoodsComponents/BuyGoods.vue'
 import sell from './components/SellContainer.vue'
 import minesetting from './components/MineComponents/MineSetting.vue'
+import sort from './components/SortGoodsComponents/Sort.vue'
+import buyerfunction from './components/MineComponents/Function/BuyerFunction.vue'
+import sellerfunction from './components/MineComponents/Function/SellerFunction.vue'
+import login from  './components/LoginAndRegisterComponents/Login.vue'
 var router = new VueRouter({
     routes:[
         /*默认访问组件*/
@@ -22,6 +26,10 @@ var router = new VueRouter({
         {path: '/list/all/:id',component:onegoods},
         {path: '/index/everyday/:id',component:onegoods},
         {path: '/mine/setting',component:minesetting},
+        {path:'/sort/:id',component:sort},
+        {path:'/buyer/:id',component:buyerfunction},
+        {path:'/seller/:id',component:sellerfunction},
+        {path:'/loginAndRegister/login',component:login},
     ],
     /*路由高亮*/
     linkActiveClass: 'mui-active',/*MUI的高亮*/

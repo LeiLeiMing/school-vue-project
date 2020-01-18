@@ -18,7 +18,7 @@
                 <span class="mui-tab-label">发布商品</span>
             </router-link>
             <router-link class="mui-tab-item " to="/cart">
-                <span class="mui-icon mui-icon-extra mui-icon-extra-cart"><span class="mui-badge">9</span></span>
+                <span class="mui-icon mui-icon-extra mui-icon-extra-cart"><span class="mui-badge" v-if="amount!=0">{{amount}}</span></span>
                 <span class="mui-tab-label">购物车</span>
             </router-link>
             <router-link class="mui-tab-item " to="/mine">
@@ -29,7 +29,22 @@
     </div>
 </template>
 <script>
-
+    export default {
+        /*这时候父组件传来的amount不需要考虑存进数据库，交给父组件存*/
+        /*子组件只负责动态展示购物车数量的变化和mounted方法从数据库获取最新的数量，这样一来，切换标签栏时，
+        * amount总是数据库里最新的数据，看不出有异样
+        * */
+        props: ['amount'],
+        data(){
+            return{
+                amount:0
+            }
+        },
+        /*加载时，从数据库获取用户下的购物车数量*/
+        mounted() {
+            this.amount = 10;
+        }
+    }
 </script>
 <style scoped>
 
