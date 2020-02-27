@@ -21,7 +21,7 @@
                       <study />
                     </div>
                     <div v-if="activeNumber == 1">
-                       1
+                        1
                     </div>
                     <div v-if="activeNumber == 2">
                         2
@@ -69,7 +69,7 @@
             }
         },
         components:{
-            study
+            study,
         },
         methods:{
             onClickLeft:function () {

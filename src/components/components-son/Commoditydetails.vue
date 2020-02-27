@@ -10,7 +10,6 @@
                 loading-text="拼命加载中..."
         >
             <!--商品卡片-->
-            <!--困惑，为什么这里不需要加router-view就能了呢，而且是转跳效果-->
             <router-link v-for="(g,index) in goods" :key="index" :to="'/list/all/'+index">
                 <van-card :price=g.price :desc=g.desc :title=g.title :thumb=g.thumb />
             </router-link>
@@ -40,12 +39,11 @@
             onLoad() {
                 // 异步更新数据
                 setTimeout(() => {
-                    /*加载的数据*/
+                    /*加载的数据,该部分将会从数据库获取，获取模式和分页获取一致，故，每次获取数据后，要进行标记，方便下次从该数据后获取*/
                     var c =  {price:"20.00",desc:"描述信息:好东西好东西好东西好东西",title:"爆款春夏潮流短袖",thumb:"https://img.yzcdn.cn/vant/t-thirt.jpg"};
                     this.goods.push(c);
                     // 加载状态结束
                     this.loading = false;
-
                     // 数据全部加载完成
                     if (this.goods.length >= 40) {
                         this.finished = true;

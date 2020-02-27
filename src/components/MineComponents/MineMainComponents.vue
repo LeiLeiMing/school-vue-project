@@ -9,7 +9,7 @@
                 <router-link to="/mine/setting">
                     <van-image width="80" height="80" round style="vertical-align:middle;" src="https://img.yzcdn.cn/vant/cat.jpeg"/>
                 </router-link>
-                <span>鸣者</span>
+                <span>{{userdata.name}}</span>
             </div>
             <van-tabs v-model="active">
                 <van-tab title="我是买家"><buyer/></van-tab>
@@ -37,15 +37,32 @@
             return{
                 active:'',
                 isLogin: false,
+                userdata:{},
             }
         },
         components:{
             buyer,
             seller
         },
+        methods:{
+
+        },
         mounted() {
-            //这里将会从服务器获取当前用户信息，如果没有，传回一个false
-            this.isLogin = false;
+            //采用此种写法能避免cookie的token和服务器端新的token不同步的问题
+            this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
+                if (response != null){
+                    //更新Cookie里面新的token,避免cookie里面的token没变，而服务器的token的却变了
+                    this.$cookies.set("AUTH_TOKEN",response.data.newtoken,60 *60* 30)
+                    console.log("中token："+this.$cookies.get("AUTH_TOKEN"))
+                    this.userdata = response.data.userinfo;
+                    //这里将会从服务true器获取当前用户信息，如果没有，传回一个false
+                    this.isLogin = true;
+                }else{
+                    //未登录页面
+                    this.isLogin = false;
+                }
+
+            })
         }
     }
 </script>

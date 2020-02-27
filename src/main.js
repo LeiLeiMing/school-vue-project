@@ -108,6 +108,29 @@ Vue.use(Panel);
 /*步进器*/
 import { Stepper } from 'vant';
 Vue.use(Stepper);
+/*引入开关按钮*/
+import { Switch } from 'vant';
+Vue.use(Switch);
+/*滑块*/
+import { Slider } from 'vant';
+Vue.use(Slider);
+/*百度地图*/
+import BaiduMap from 'vue-baidu-map'
+Vue.use(BaiduMap, {
+    ak: 'wz88BwrkIj1p0r6AChgBlGihT7prdWE0'
+})
+
+/*引入axios*/
+import axios from 'axios';
+Vue.prototype.$axios = axios;
+import QS from 'qs'
+Vue.prototype.$qs = QS;
+
+/*cookie操作插件*/
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
+
+
 /*首页组件*/
 import App from './App.vue'
 let vue = new Vue({

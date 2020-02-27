@@ -3,6 +3,9 @@
     <div>
         <!--顶部-->
         <toptab @searchGoods="getData"></toptab>
+        <van-image
+                src="https://leiming-zhiqiu.oss-cn-beijing.aliyuncs.com/%E5%96%B5%E5%86%85%E7%9A%84%E5%BA%93/%E9%A6%96%E9%A1%B52.png"
+        />
         <!--轮播图-->
         <lunbo/>
         <!--分区商品展示块-->
@@ -19,7 +22,7 @@
                       swipeable
                       sticky
                       :border="false"
-                      :offset-top="47"
+                      :offset-top="52"
                       ref="tabs"
                       type="line"
                       color="red"

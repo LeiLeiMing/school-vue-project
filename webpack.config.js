@@ -9,7 +9,11 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 module.exports = {
     /*踩坑点，__dirname是两个下划线的*/
     /*入口*/
-    entry:path.join(__dirname,'./src/main.js'),
+    entry: path.join(__dirname,'./src/main.js'),
+
+    externals:{
+        "BMap":"BMap"
+    },
     /*出口*/
     output: {
         path: path.join(__dirname,'./dist'),

@@ -3,7 +3,7 @@
     <div>
         <van-swipe :autoplay="3000" indicator-color="blue" :height="220" >
             <van-swipe-item v-for="(image,index) in imges" :key="index">
-                <img class="back" v-lazy="image.url" >
+                <img class="back" v-lazy="image.imageaddress" >
             </van-swipe-item>
         </van-swipe>
     </div>
@@ -14,12 +14,16 @@
         data(){
             return{
                 /*轮播图*/
-                imges:[
-                    {url:"https://img.yzcdn.cn/vant/apple-2.jpg"},
-                    {url:"https://img.yzcdn.cn/vant/apple-1.jpg"},
-                    {url:"https://cdn.pixabay.com/photo/2016/11/19/18/06/feet-1840619__340.jpg"},
-                ],
+                imges:[],
             }
+        },
+        mounted() {
+            /*get请求获取轮播的商品图片*/
+            this.$axios.get('http://localhost:1000/project-service/goods/indexlunbo')
+                .then((response) => {
+                    /*赋值*/
+                    this.imges = response.data;
+                });
         }
     }
 </script>

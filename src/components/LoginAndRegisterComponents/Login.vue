@@ -1,43 +1,32 @@
 <template>
     <div>
-        <van-sticky :offset-top="0">
-            <van-nav-bar style="height: 45px" title="用户登录" left-arrow  @click-left="onClickLeft"/>
-        </van-sticky>
-        <div style="width: 100%;height: 600px;">
-           <div style="width: 90%;height: 90%;margin-left: 5%;margin-top: 5%;background-color: white">
+        <div class="back" :style="{backgroundImage: 'url(' + back + ')' }">
+           <div style="width: 100%;height: 400px;">
                <van-tabs v-model="active">
-                   <van-tab title="登录">
-                       <div style="width: 100%;height: 100%;margin-left: 10%;margin-top: 10%">
+                   <van-tab title="账号登录">
+                       <div style="width: 100%;height: 100%;margin-left: 10%;margin-top: 40%">
                            <span>
-                               <label>*手机号</label>
-                               <input type="number" style="width: 60%;"/>
+                               <label><font style="color: red;">*</font><font style="color: white">手机号</font></label>
+                               <input type="number" placeholder="请输入手机号" v-model="phone" style="width: 60%;"/>
                            </span>
                            <br>
                            <span>
-                                <label>*验证码</label>
-                               <input type="number" style="width: 30%;"/>
-                               <van-button type="primary">获取验证码</van-button>
+                                <label><font style="color: red;">*</font><font style="color: white">密码</font></label>&nbsp&nbsp&nbsp&nbsp
+                               <input type="password" v-model="password" placeholder="请输入密码" style="width: 60%;"/>
                            </span>
                        </div>
+                       <!--滑动验证-->
                        <div style="width: 80%;height: 100%;margin-left: 10%;margin-top: 5%">
-                           <van-button type="primary" size="large">登录</van-button>
+                           <slide @fromSon="verificationSuccess"/>
+                       </div>
+                       <div style="width: 80%;height: 100%;margin-left: 10%;margin-top: 5%">
+                           <van-button type="info" size="large" @click="finallyCheck()">登录</van-button>
+                           <van-button type="primary" size="large" to="/loginAndRegister/register">注册账号</van-button>
                        </div>
                        <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }">
                            其他登录方式
                        </van-divider>
-                       <div style="width: 80%;height: 100%;margin-left: 10%;margin-top: 5%">
-                           <van-grid :border="false" :column-num="2">
-                               <van-grid-item text="文字">
-                                   <van-image  width="30" height="30"  src="https://img.88tph.com/production/20180126/12488638-1.jpg!/watermark/url/L3BhdGgvbG9nby5wbmc/align/center" />
-                               </van-grid-item>
-                               <van-grid-item>
-                                   <van-image width="30" height="30" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNuQzs32adLas7x7AdccPhmd0wV0pnQBkK2AAMQQR6EH-f1VON&s" />
-                               </van-grid-item>
-                           </van-grid>
-                       </div>
-
                    </van-tab>
-                   <van-tab title="注册">注册</van-tab>
                </van-tabs>
            </div>
         </div>
@@ -45,20 +34,84 @@
 </template>
 
 <script>
+    import back from "./boat.jpg"
+    import slide from "./Verification.vue"
     export default {
         data(){
             return{
+                back: back,
+                phone:"",
+                password:"",
+                status:false
             }
+        },
+        components:{
+            slide,
         },
         methods:{
             onClickLeft:function () {
                 /*返回上一页*/
                 this.$router.go(-1)
+            },
+            //滑动验证成功，接收来自子组件的数据
+            verificationSuccess:function (data) {
+                this.status = data;
+            },
+            //登录核对
+            finallyCheck:function () {
+                if (this.phone === '') {
+                    this.$toast({
+                        message:"手机号不能为空"
+                    })
+                    return;
+                } else {
+                    if (this.phone !== '') {
+                        var reg = /^1[3456789]\d{9}$/;
+                        if (!reg.test(this.phone)) {
+                            this.$toast({
+                                message:"请输入正确的手机号"
+                            })
+                            return;
+                        }
+                    }
+                }
+                if (this.password === ''){
+                    this.$toast({
+                        message:"密码不能为空"
+                    })
+                    return;
+                }
+                if (!this.status){
+                    this.$toast({
+                        message:"请进行验证"
+                    })
+                    return;
+                }else{
+                    this.$axios.post('http://localhost:1000/auth-service/auth/check?phone='+this.phone+'&password='+this.password).then((response) => {
+                        //存进浏览器cookie，时间以秒计算，30分钟
+                        this.$cookies.set("AUTH_TOKEN",response.data[0],60 *60* 30)
+                        if (response.status == 200){
+                            this.$toast({
+                                message:"登录成功"
+                            })
+                            //返回个人中心
+                            this.$router.push({path:'/mine'})
+                            return
+                        }
+                        this.$toast({
+                            message:"登录失败"
+                        })
+                    })
+
+                }
             }
-        }
+         }
     }
 </script>
 
 <style scoped>
-
+    .back{
+        width: 100%;
+        height: 850px;
+    }
 </style>

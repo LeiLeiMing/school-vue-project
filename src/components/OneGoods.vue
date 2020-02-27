@@ -1,4 +1,5 @@
 <!--商品详情页面-->
+<!--因为是二手物品，尺寸方面可能对于卖家而已专业性不强，将会取消-->
 <template>
     <div>
         <van-sticky :offset-top="0">
@@ -20,7 +21,7 @@
                 </div>
                 <br>
                 <div>
-                    <van-cell title="选择规格" :value="'颜色:'+color+';尺寸:'+size" is-link @click="showBuySize"/>
+                    <van-cell title="可议价" value="去议价" is-link @click="showBuySize"/>
                 </div>
                 <div>
                     <van-tabs>
@@ -28,52 +29,6 @@
                         <van-tab title="累计评价(100)"><comments /></van-tab>
                     </van-tabs>
                 </div>
-                <!--规格-->
-                <van-action-sheet v-model="show" title="规格选择">
-                    <div style="height: 100px">
-                        <div style="float: left;width: 30%">
-                            <van-image
-                                    width="100"
-                                    height="100"
-                                    :src=indexdefaultImage
-                            />
-                        </div>
-                        <div style="float: left;width: 70%">
-                            <h4 style="color: red;">￥200</h4>
-                            <h5>剩余2件</h5>
-                            <h5>选择颜色尺寸</h5>
-                        </div>
-                    </div>
-                    <van-divider />
-                    <div style="margin-left: 10px">
-                        <h5>已选颜色:{{color}}</h5>
-                        <div>
-                            <van-button plain hairline type="default"  v-for="(goods_color,index) in goodscolor" :key="index" :icon=goods_color.imageurl @click="selectColor(goods_color.colorname,goods_color.imageurl)">{{goods_color.colorname}}</van-button>
-                        </div>
-                    </div>
-                    <div style="margin-left: 10px;margin-top: 10px">
-                        <h5>已选尺寸:{{size}}</h5>
-                        <van-button round type="default" v-for="(size,index) in goodssize" :key="index" @click="selectSize(size.sizeValue)">{{size.sizeValue}}</van-button>
-                    </div>
-                    <div style="margin-left: 10px;margin-top: 10px">
-                        <h5>购买数量</h5>
-                        <div>
-                            <van-button type="default" v-if="value != 1" @click="reduce">-</van-button>
-                            <van-button type="default" v-if="value == 1" disabled>-</van-button>
-                            <van-button disabled  type="default">{{value}}</van-button>
-                            <van-button type="default" @click="add">+</van-button>
-                        </div>
-                    </div>
-                    <van-field
-                            v-model="message"
-                            rows="1"
-                            autosize
-                            label="留言"
-                            type="textarea"
-                            placeholder="请输入留言"
-                    />
-                    <van-button type="danger" size="large" @click="success">确定</van-button>
-                </van-action-sheet>
                 <br><br><br><br>
             </van-panel>
         </div>

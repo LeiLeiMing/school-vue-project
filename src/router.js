@@ -13,6 +13,8 @@ import sort from './components/SortGoodsComponents/Sort.vue'
 import buyerfunction from './components/MineComponents/Function/BuyerFunction.vue'
 import sellerfunction from './components/MineComponents/Function/SellerFunction.vue'
 import login from  './components/LoginAndRegisterComponents/Login.vue'
+import register from './components/LoginAndRegisterComponents/Register.vue'
+import map from './components/MapCpmponents/BaiduMap.vue'
 var router = new VueRouter({
     routes:[
         /*默认访问组件*/
@@ -30,6 +32,8 @@ var router = new VueRouter({
         {path:'/buyer/:id',component:buyerfunction},
         {path:'/seller/:id',component:sellerfunction},
         {path:'/loginAndRegister/login',component:login},
+        {path:'/loginAndRegister/register',component:register},
+        {path:'/map/selectaddress',component:map},
     ],
     /*路由高亮*/
     linkActiveClass: 'mui-active',/*MUI的高亮*/

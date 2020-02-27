@@ -18,7 +18,10 @@
 
 <script>
     export default {
-        name: "Buyer"
+        name: "Buyer",
+        mounted() {
+            //该方法将会查询数据库当前用户对应的买家信息...
+        }
     }
 </script>
 
