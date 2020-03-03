@@ -26,7 +26,7 @@
                         已售出
                     </div>
                     <div v-if="activeNumber == 3">
-                        上架的商品
+                        <grounding />
                     </div>
                     <div v-if="activeNumber == 4">
                         收到的议价
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+    import grounding from './GroundingGoods.vue'
     export default {
         data(){
             return{
@@ -50,6 +51,9 @@
                     {name:"收到的议价"},
                 ]
             }
+        },
+        components:{
+            grounding,
         },
         methods:{
             onClickLeft:function () {

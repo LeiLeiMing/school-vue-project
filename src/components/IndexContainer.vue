@@ -28,9 +28,9 @@
                       color="red"
                       title-active-color="red"
                       animated:yes>
-                <van-tab title="同城" ><indexrecommendnew @addCart="fromSon"/></van-tab>
-                <van-tab title="新品" ><indexrecommendsellmore/></van-tab>
-                <van-tab title="人气" ><indexrecommendnew /></van-tab>
+                <van-tab title="推荐" ><indexrecommendgoods/></van-tab>
+                <van-tab title="新品" ><indexrecommendsellnew/></van-tab>
+                <van-tab title="人气" ><indexrecommendsellhot /></van-tab>
                 <van-tab title="精选" ><indexrecommendnew /></van-tab>
             </van-tabs>
         </div>
@@ -40,38 +40,35 @@
         </div><br><br>
         <!--底部tab栏-->
         <!--把amount传给子组件展示-->
-        <apptab :amount="amount" ></apptab>
+        <apptab ></apptab>
     </div>
 </template>
 <script>
     /*引入组件中的组件*/
     import toptab from '../components/TabComponents/AppTop.vue'
     import apptab from '../components/TabComponents/AppTab.vue'
-    import indexrecommendnew from './IndexComponents/IndexRecommendNew.vue'
-    import indexrecommendsellmore from './IndexComponents/IndexRecommendSellMore.vue'
+    import indexrecommendsellhot from './IndexComponents/IndexRecommendSellHot.vue'
+    import indexrecommendsellnew from './IndexComponents/IndexRecommendSellNew.vue'
+    import indexrecommendgoods from './IndexComponents/IndexRecommendGoods.vue'
     import lunbo from './IndexComponents/LunboView.vue'
     import sort from './IndexComponents/Sort.vue'
     export default {
         data(){
             return{
                 active: 0,
-                amount: 0,
             }
         },
         components:{
             toptab,
             apptab,
-            indexrecommendnew,
-            indexrecommendsellmore,
+            indexrecommendsellhot,
+            indexrecommendsellnew,
+            indexrecommendgoods,
             lunbo,
             sort
         },
         methods:{
-            fromSon:function (data) {
-                /*应该先从服务器获取amount*/
-                this.amount += data;
-                /*加完后把amount存进数据库*/
-            },
+
             getData:function (data) {
                 //console.log(data)
             }

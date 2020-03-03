@@ -52,8 +52,7 @@
             this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
                 if (response != null){
                     //更新Cookie里面新的token,避免cookie里面的token没变，而服务器的token的却变了
-                    this.$cookies.set("AUTH_TOKEN",response.data.newtoken,60 *60* 30)
-                    console.log("中token："+this.$cookies.get("AUTH_TOKEN"))
+                    this.$cookies.set("AUTH_TOKEN",response.data.newtoken,'30min')
                     this.userdata = response.data.userinfo;
                     //这里将会从服务true器获取当前用户信息，如果没有，传回一个false
                     this.isLogin = true;

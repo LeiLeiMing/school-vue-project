@@ -99,6 +99,13 @@
                             })
                             this.$router.push({path:'/loginAndRegister/login'})
                         }
+                    }).catch((error) => {
+                        //只有用箭头函数才能写this
+                        if (error.response.status == 401){
+                            this.$toast({
+                                message:"验证码失效，请重新获取"
+                            })
+                        }
                     });
                 }
             },

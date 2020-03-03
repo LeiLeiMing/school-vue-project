@@ -89,7 +89,7 @@
                 }else{
                     this.$axios.post('http://localhost:1000/auth-service/auth/check?phone='+this.phone+'&password='+this.password).then((response) => {
                         //存进浏览器cookie，时间以秒计算，30分钟
-                        this.$cookies.set("AUTH_TOKEN",response.data[0],60 *60* 30)
+                        this.$cookies.set("AUTH_TOKEN",response.data[0],'30min')
                         if (response.status == 200){
                             this.$toast({
                                 message:"登录成功"
@@ -98,12 +98,28 @@
                             this.$router.push({path:'/mine'})
                             return
                         }
-                        this.$toast({
-                            message:"登录失败"
-                        })
-                    })
+                    }).catch((error) => {
+                        //只有用箭头函数才能写this
+                        if (error.response.status == 401){
+                            this.$toast({
+                                message:"账号密码错误"
+                            })
+                        }
+                        if(error.response.status == 500){
+                            this.$toast({
+                                message:"服务器异常"
+                            })
+                        }
+                    });
 
                 }
+            },
+            //弹出测试
+            alertmeaasge:function () {
+                console.log("11111")
+                this.$toast({
+                    message:"账号或密码错误"
+                })
             }
          }
     }

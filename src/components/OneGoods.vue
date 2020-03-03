@@ -6,27 +6,38 @@
             <van-nav-bar style="height: 45px" title="爆款衣服" left-arrow  @click-left="onClickLeft"/>
         </van-sticky>
         <van-swipe  :height="300" >
-            <van-swipe-item v-for="(image, index) in indexgoods" :key="index">
-                <img class="back" v-lazy="image.url" />
+            <van-swipe-item v-for="(image, index) in indeximage" :key="index">
+                <img class="back" v-lazy="image.imageaddress" />
             </van-swipe-item>
         </van-swipe>
         <div>
             <van-panel>
-                <div>纯白色短袖t恤男女宽松DIY白t恤半袖纯棉圆领打底衫广告衫印logo</div>
+                <div>{{this.goodsinfo.goodsname}}</div>
                 <van-divider />
-                <div><h6>月销量:100 &nbsp &nbsp &nbsp 累计评价:100</h6></div>
-                <div style="color: red">价格：￥200</div>
-                <div>
+                <div><h6>浏览次数:{{this.goodsinfo.clickmount}} &nbsp &nbsp &nbsp 库存:{{this.goodsinfo.goodsmount}}</h6></div>
+                <div style="color: red">价格：￥{{this.goodsinfo.goodsprice}}</div>
+                <div v-if="this.goodsinfo.baoyou == 1">
                     <h6>此商品包邮，七天无忧退换</h6>
                 </div>
+                <div v-if="this.goodsinfo.baoyou == 0">
+                    <h6>此商品不支持包邮</h6>
+                </div>
                 <br>
-                <div>
+                <div v-if="this.goodsinfo.nogotable == 1">
                     <van-cell title="可议价" value="去议价" is-link @click="showBuySize"/>
+                </div>
+                <div v-if="this.goodsinfo.nogotable == 0">
+                    <van-cell title="不可议价" is-link @click="showBuySize"/>
                 </div>
                 <div>
                     <van-tabs>
-                        <van-tab title="宝贝详情"><aboutgoods /></van-tab>
-                        <van-tab title="累计评价(100)"><comments /></van-tab>
+                        <van-tab title="宝贝详情">
+                            <van-grid :border="false" :column-num="1">
+                                <van-grid-item v-for="(image,index) in detailsimage" :key="index">
+                                    <img class="back" v-lazy="image.imageaddress" />
+                                </van-grid-item>
+                            </van-grid>
+                        </van-tab>
                     </van-tabs>
                 </div>
                 <br><br><br><br>
@@ -36,9 +47,9 @@
         <!--购买栏-->
         <van-goods-action>
             <van-goods-action-icon icon="chat-o" text="联系卖家"  />
-            <van-goods-action-icon icon="cart-o" text="购物车" />
-            <van-goods-action-button type="warning" text="加入购物车" />
-            <van-goods-action-button type="danger" text="立即购买"  />
+            <van-goods-action-icon icon="star-o" text="收藏" />
+            <van-goods-action-button type="warning" text="加入购物车" @click="addcart" />
+            <van-goods-action-button type="danger" text="立即购买" @click="buynow"  />
         </van-goods-action>
         <!---->
     </div>
@@ -49,29 +60,15 @@
     export default {
         data(){
             return{
-                indexdefaultImage:"https://img.yzcdn.cn/vant/t-thirt.jpg",
-                size:"无",
-                color:"无",
-                message:"",
-                value:0,
-                show: false,
-                indexgoods:[
-                    {url:'https://img.yzcdn.cn/vant/t-thirt.jpg'},
-                    {url:'https://img.yzcdn.cn/vant/t-thirt.jpg'},
-                    {url:'https://img.yzcdn.cn/vant/t-thirt.jpg'},
-                    {url:'https://img.yzcdn.cn/vant/t-thirt.jpg'},
-                ],
-                goodscolor:[
-                    {imageurl:"https://img.yzcdn.cn/vant/t-thirt.jpg",colorname:"白色"},
-                    {imageurl:"https://img.yzcdn.cn/vant/apple-2.jpg",colorname:"黑色"},
-                    {imageurl:"https://img.yzcdn.cn/vant/apple-1.jpg",colorname:"褐色"},
-                ],
-                goodssize:[
-                    {sizeValue:"X"},
-                    {sizeValue:"L"},
-                    {sizeValue:"XL"},
-                    {sizeValue:"XXL"},
-                ],
+                //商品信息
+                goodsinfo:[],
+                //首页展示图片
+                indeximage:[],
+                //商品详情图片
+                detailsimage:[],
+                /*购物车*/
+                cartgoods:[], //载体，接收localStorage的双层数组
+                goodsvalue:[], //最终解析，解析成单层数组
             }
         },
         methods:{
@@ -79,29 +76,113 @@
                 /*返回上一页*/
                 this.$router.go(-1)
             },
-            showBuySize:function () {
-                this.show = true
+            //立即购买
+            buynow:function(){
+                //核对用户
+                //根据判断用户是否登录
+                var authtoken = this.$cookies.get("AUTH_TOKEN");
+                if (authtoken == null || authtoken === ''){
+                    this.$toast({
+                        message:"您未登录，请登录后再购买哦~~"
+                    })
+                    return;
+                }
+                this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
+                    //登录无误，转跳页面
+                    this.$router.push({path:'/buygoods'})
+                }).catch((error) => {
+                    this.$toast({
+                        message:"您未登录，请登录后再购买哦~~"
+                    })
+                });
+
             },
-            add:function () {
-                this.value++;
+            //加入购物车
+            addcart:function () {
+                //判断当前用户是否登录
+                this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
+                   //已登录,获取本地数据并全部传到redis
+                    this.savecartlocal();
+                    this.useraddcart();
+                }).catch((error) => {
+                    //将当前商品加入购物车
+                   this.savecartlocal();
+                });
             },
-            reduce:function () {
-                this.value--;
+            //登录状态下将商品加入购物车
+            useraddcart:function () {
+                //获取所有本地购物车数据
+                for (var i = 0; i < localStorage.length; i++) {
+                    if (localStorage.getItem(localStorage.key(i)) != "INFO") {
+                        //取出来是String类型，转为JSON时是双层数组，需要解析层单层数组
+                        this.cartgoods =JSON.parse(localStorage.getItem(localStorage.key(i)));
+                        //解析层单层数组
+                        for (var j =0;j<this.cartgoods.length;j++){
+                            this.goodsvalue.push(this.cartgoods[j]);
+                        }
+                    }
+                }
+                //将本地购物车记录传至浏览器
+                this.$axios({
+                    method:'post',
+                    url:'http://localhost:1000/transaction-service/cart/savelocal?token='+this.$cookies.get("AUTH_TOKEN"),
+                    data:this.goodsvalue,
+                    header:{
+                        'Content-Type':'application/json'  //如果写成contentType会报错
+                    }
+                }).then((response)=>{
+                    //清空数组内的缓存,否则会越加越多
+                    this.goodsvalue.length = 0;
+                }).catch((error) =>{
+                    this.$toast({
+                        message:"添加失败~"
+                    })
+                });
             },
-            selectColor:function (data,imageurl) {
-                this.color = data;
-                this.indexdefaultImage = imageurl;
-            },
-            selectSize:function (data) {
-                this.size = data;
-            },
-            success:function () {
-                this.show = false;
+            //将商品数据存进本地
+            savecartlocal:function () {
+                var cartinfo = localStorage.getItem(this.goodsinfo.sellgoodsid)
+                //已经有了，数量加1
+                if (cartinfo!==null){
+                    var oldmount = JSON.parse(localStorage.getItem(this.goodsinfo.sellgoodsid))[0].mount;
+                    var cartgoods = [{ value:this.goodsinfo, mount:oldmount+1}]
+                    localStorage.setItem(this.goodsinfo.sellgoodsid,JSON.stringify(cartgoods))
+                    //localStorage.setItem(this.goodsinfo.id+"&_&key",JSON.stringify(info))
+                }else{
+                    var cartgoods = [{ value:this.goodsinfo, mount: 1}]
+                    localStorage.setItem(this.goodsinfo.sellgoodsid,JSON.stringify(cartgoods))
+                }
+                this.$toast({
+                    message:"已添加至购物车"
+                })
             }
         },
         components:{
             aboutgoods,
             comments
+        },
+        mounted() {
+            //获取路由传过来的商品id
+           this.goodsid = this.$route.params.id;
+           //记录点击次数
+            this.$axios.post('http://localhost:1000/project-service/goods/goodsclick?sellgoodsid='+this.goodsid).then((response) => {
+            }).catch((error) => {});
+           //通过商品id查询该商品信息
+            this.$axios.get('http://localhost:1000/project-service/goods/goodsdetails?sellgoodsid='+this.goodsid).then((response) => {
+                this.goodsinfo = response.data
+                for (var i = 0;i<this.goodsinfo.allimageaddress.length;i++){
+                    if(this.goodsinfo.allimageaddress[i].lunboordateils == 1){
+                        this.indeximage.push(this.goodsinfo.allimageaddress[i])
+                    }else{
+                        this.detailsimage.push(this.goodsinfo.allimageaddress[i])
+                    }
+                }
+            }).catch((error) => {
+                this.$toast({
+                    message:"服务器器出小差了~~"
+                })
+
+            });
         }
     }
 </script>

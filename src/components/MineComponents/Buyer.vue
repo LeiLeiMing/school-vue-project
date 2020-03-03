@@ -5,7 +5,7 @@
             <van-grid-item icon="shopping-cart-o"  text="待支付" to="/buyer/0" />
             <van-grid-item icon="gold-coin-o" text="待收货" to="/buyer/1" />
             <van-grid-item icon="phone-o" text="已买到" to="/buyer/2" />
-            <van-grid-item icon="gift-o" text="待评价" to="/buyer/3"/>
+            <van-grid-item icon="gift-o" text="购买记录" to="/buyer/3"/>
         </van-grid>
         <van-cell title="我的订单" icon="label" size="large" is-link value="查看全部订单" to="/buyer/4"  />
         <van-cell title="我的收藏" icon="star" size="large" is-link  to="/buyer/5"  />

@@ -130,6 +130,10 @@ Vue.prototype.$qs = QS;
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 
+/*订单页的地址选择*/
+import { AddressList } from 'vant';
+Vue.use(AddressList);
+
 
 /*首页组件*/
 import App from './App.vue'

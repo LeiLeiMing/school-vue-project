@@ -77,8 +77,8 @@
         </van-cell-group>
         <h5>上传商品展示图片（3张以内）</h5>
         <van-uploader v-model="indexfileList" :before-read="beforeRead"  :max-count="3"  multiple />
-        <h5>上传商品详情图片（5张以内）</h5>
-        <van-uploader v-model="fileList"  :before-read="beforeRead"  :max-count="5"  multiple />
+        <h5>上传商品详情图片（3张以内）</h5>
+        <van-uploader v-model="fileList"  :before-read="beforeRead"  :max-count="3"  multiple />
         <h5>商品发货地点</h5>
         <van-button type="primary" icon="location-o" @click="showClick" size="large">{{selectaddress}}</van-button>
         <van-popup
@@ -89,7 +89,7 @@
             <selectaddress @Cancel="sonClick" @Select="addressSon"></selectaddress>
         </van-popup>
         <!--发布-->
-        <van-button type="danger" size="large" @click="addgoods">发布商品</van-button>
+        <van-button type="danger" size="large" @click="addgoods" loading-text="发布中...">发布商品</van-button>
 
     </div>
 </template>
@@ -133,7 +133,7 @@
             beforeRead(file) {
                 if (file.type !== 'image/jpeg') {
                     this.$toast({
-                        message:"请上传.jpg格式的图片"
+                        message:"请上传.jpg或.png格式的图片"
                     })
                     return false;
                 }
@@ -154,16 +154,7 @@
                 this.show = show;
                 this.selectaddress = data[0].name+data[1].name+data[2].name;
             },
-            //发布商品
-            addgoods:function () {
-                //判断用户是否登录
-                var authtoken = this.$cookies.get("AUTH_TOKEN");
-                if (authtoken == null || authtoken === ''){
-                    this.$toast({
-                        message:"您未登录，请登录后再发布哦~~"
-                    })
-                    return;;
-                }
+            checkvvalue:function(){
                 //校验内容
                 if (this.goodsname === ''){
                     this.$toast({
@@ -237,7 +228,41 @@
                 }else{
                     this.bargaining = "0"
                 }
-                //传递商品基本信息
+                this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
+                    if (response != null) {
+                    }else{
+                        this.$toast({
+                            message:"请先登录哦~~"
+                        });
+                        return;
+                    }
+                })
+            },
+            //发布商品
+            addgoods:function () {
+                //根据判断用户是否登录
+                var authtoken = this.$cookies.get("AUTH_TOKEN");
+                if (authtoken == null || authtoken === ''){
+                    this.$toast({
+                        message:"您未登录，请登录后再发布哦~~"
+                    })
+                    return;
+                }
+                this.checkvvalue();
+                //商品详情图
+                const  fileList = new FormData();
+                for(var i = 0;i<this.fileList.length;i++){
+                    const  file = this.fileList[i].file
+                    fileList.append('files', file);
+                }
+                const  indexfileList = new FormData();
+                for(var i = 0;i<this.indexfileList.length;i++){
+                    const  indexfile = this.indexfileList[i].file
+                    indexfileList.append('files', indexfile);
+                }
+                this.$toast({
+                    message:"发布中..."
+                });
                 this.$axios.post('http://localhost:9090/goods/sell?'
                     + 'goodsname='+this.goodsname
                     + '&goodstype='+this.value
@@ -247,39 +272,38 @@
                     + '&baoyou='+this.joyou
                     + '&goodsdesc='+this.goodsdesc
                     + '&goodsaddress='+this.selectaddress
-                    +'&authtoken='+authtoken
-                ).then((response) => {})
-
-                //传递商品详情图
-                const  fileList = new FormData();
-                for(var i = 0;i<this.fileList.length;i++){
-                    const  file = this.fileList[i].file
-                    fileList.append('files', file);
-                }
-                this.$axios.post('http://localhost:1000/project-service/goods/filelist', fileList)
-                    .then(function (response) {
-                    })
-
-                //传递首页商品详情图
-                const  indexfileList = new FormData();
-                for(var i = 0;i<this.indexfileList.length;i++){
-                    const  indexfile = this.indexfileList[i].file
-                    indexfileList.append('files', indexfile);
-                }
-                this.$axios.post('http://localhost:1000/project-service/goods/indexfilelist', indexfileList)
-                    .then(function (response) {
-                    })
-            }
+                    +'&authtoken='+authtoken,
+                    indexfileList,
+                    fileList
+                ).then((response) => {
+                        this.$toast({
+                            message:"发布成功,可在卖家功能的全部商品处查看哦"
+                        });
+                        this.$router.push({path:'/mine'})
+                }).catch((error) => {
+                    console.log(error)
+                    if (error.response.status == 403){
+                        this.$toast({
+                            message:"您未登录，请登录后发布哦~~"
+                        })
+                    } else{
+                        this.$toast({
+                            message:"服务器出小差了，发布失败，请稍后再试~~"
+                        })
+                    }
+                    return;
+                });
+            },
 
         },
 
         mounted() {
             //判断用户是否登录
-            var authtoken = this.$cookies.get("AUTH_TOKEN");
-            if (authtoken == null || authtoken === ''){
+            if (this.$cookies.get("AUTH_TOKEN") == null){
                 this.$toast({
-                    message:"您未登录，请登录后再发布哦~~"
+                    message:"您未登录，请登录后发布哦~~"
                 })
+                return;
             }
 
         }

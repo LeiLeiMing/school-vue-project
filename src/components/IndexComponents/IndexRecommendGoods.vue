@@ -1,3 +1,4 @@
+<!--最热门的商品，根据浏览量来-->
 <template>
     <div>
         <van-grid  :border="false" :column-num="2" :gutter="5">
@@ -8,7 +9,7 @@
                 <span style="font-size: 10px;margin-top: 10px">大头牌手机，用了头就大</span>
                 <span>￥2000</span>
                 <div @click="select(image.id)">
-                  <span style="margin-left: 100px" ><van-icon name="cart-circle-o" color="red" size="30px" /></span>
+                    <span style="margin-left: 100px" ><van-icon name="cart-circle-o" color="red" size="30px" /></span>
                 </div>
             </van-grid-item>
         </van-grid>

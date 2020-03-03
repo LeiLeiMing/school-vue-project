@@ -34,15 +34,36 @@
         /*子组件只负责动态展示购物车数量的变化和mounted方法从数据库获取最新的数量，这样一来，切换标签栏时，
         * amount总是数据库里最新的数据，看不出有异样
         * */
-        props: ['amount'],
+        //props: ['amount'],
         data(){
             return{
-                amount:0
+                amount:0,
+                cartgoods:[],
+                goodsvalue:[]
             }
         },
         /*加载时，从数据库获取用户下的购物车数量*/
         mounted() {
-            this.amount = 10;
+            //判断用户是否登录
+            this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token=' + this.$cookies.get("AUTH_TOKEN")).then((response) => {
+                //已登录，从服务器数据库获取
+
+            }).catch((error) => {
+                //未登录，从浏览器数据库获取
+                for (var i = 0; i < localStorage.length; i++) {
+                    if (localStorage.getItem(localStorage.key(i)) != "INFO") {
+                        //取出来是String类型，转为JSON时是双层数组，需要解析层单层数组
+                        this.cartgoods =JSON.parse(localStorage.getItem(localStorage.key(i)));
+                        //解析层单层数组
+                        for (var j =0;j<this.cartgoods.length;j++){
+                            this.goodsvalue.push(this.cartgoods[j]);
+                        }
+                    }
+                }
+                for (var j =0;j<this.goodsvalue.length;j++){
+                    this.amount = this.amount + this.goodsvalue[j].mount;
+                }
+            });
         }
     }
 </script>
