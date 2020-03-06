@@ -134,6 +134,9 @@ Vue.use(VueCookies)
 import { AddressList } from 'vant';
 Vue.use(AddressList);
 
+/*滑动单元格*/
+import { SwipeCell } from 'vant';
+Vue.use(SwipeCell);
 
 /*首页组件*/
 import App from './App.vue'

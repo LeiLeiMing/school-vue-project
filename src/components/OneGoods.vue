@@ -88,32 +88,38 @@
                     return;
                 }
                 this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
-                    //登录无误，转跳页面
+                    //登录无误，生成订单
+
+                    //跳转结算
                     this.$router.push({path:'/buygoods'})
                 }).catch((error) => {
                     this.$toast({
                         message:"您未登录，请登录后再购买哦~~"
                     })
                 });
-
             },
+
             //加入购物车
             addcart:function () {
                 //判断当前用户是否登录
                 this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
-                   //已登录,获取本地数据并全部传到redis
+                    //已登录,先将数据保存到本地在获取本地数据并全部传到redis
+                    //把数据存进本地的原因是为了保持数据格式的一致性，不至于大规模更改
                     this.savecartlocal();
                     this.useraddcart();
                 }).catch((error) => {
-                    //将当前商品加入购物车
-                   this.savecartlocal();
+                    //清空上一次记录
+                    this.$toast({
+                        message:"您未登录，请登录后加入购物车哦~~"
+                    })
                 });
             },
             //登录状态下将商品加入购物车
             useraddcart:function () {
                 //获取所有本地购物车数据
                 for (var i = 0; i < localStorage.length; i++) {
-                    if (localStorage.getItem(localStorage.key(i)) != "INFO") {
+                    //玄学过滤
+                    if (localStorage.getItem(localStorage.key(i))[0] === "["&&localStorage.getItem(localStorage.key(i))[4] === "a"&& localStorage.getItem(localStorage.key(i))[7] === "e") {
                         //取出来是String类型，转为JSON时是双层数组，需要解析层单层数组
                         this.cartgoods =JSON.parse(localStorage.getItem(localStorage.key(i)));
                         //解析层单层数组
@@ -122,7 +128,7 @@
                         }
                     }
                 }
-                //将本地购物车记录传至浏览器
+                //将本地购物车记录以JSON传到传至浏览器
                 this.$axios({
                     method:'post',
                     url:'http://localhost:1000/transaction-service/cart/savelocal?token='+this.$cookies.get("AUTH_TOKEN"),
@@ -141,6 +147,8 @@
             },
             //将商品数据存进本地
             savecartlocal:function () {
+                //清楚上一次的
+                //localStorage.clear();
                 var cartinfo = localStorage.getItem(this.goodsinfo.sellgoodsid)
                 //已经有了，数量加1
                 if (cartinfo!==null){
@@ -182,6 +190,11 @@
                     message:"服务器器出小差了~~"
                 })
 
+            });
+            this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
+            }).catch((error) => {
+                //检查立马清空上一次记录，避免本地购物车数据叠加进去
+                localStorage.clear();
             });
         }
     }

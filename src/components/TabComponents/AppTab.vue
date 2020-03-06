@@ -42,27 +42,31 @@
                 goodsvalue:[]
             }
         },
+        methods:{
+            //从服务器获取购物车数据
+            getCartGoods:function () {
+                this.$axios.get('http://localhost:1000/transaction-service/cart/getcart?token=' + this.$cookies.get("AUTH_TOKEN")).then((response) => {
+                    for (var j =0;j<response.data.length;j++){
+                        this.goodsvalue.push(response.data[j]);
+                    }
+                    for (var j =0;j<this.goodsvalue.length;j++){
+                        this.allprice = this.allprice + (this.goodsvalue[j].value.goodsprice * this.goodsvalue[j].mount);
+                    }
+                    for (var j =0;j<this.goodsvalue.length;j++){
+                        this.amount = this.amount + this.goodsvalue[j].mount;
+                    }
+                }).catch((error) => {
+
+                });
+            },
+        },
         /*加载时，从数据库获取用户下的购物车数量*/
         mounted() {
             //判断用户是否登录
             this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token=' + this.$cookies.get("AUTH_TOKEN")).then((response) => {
-                //已登录，从服务器数据库获取
-
+                //从服务器数据库获取
+                this.getCartGoods();
             }).catch((error) => {
-                //未登录，从浏览器数据库获取
-                for (var i = 0; i < localStorage.length; i++) {
-                    if (localStorage.getItem(localStorage.key(i)) != "INFO") {
-                        //取出来是String类型，转为JSON时是双层数组，需要解析层单层数组
-                        this.cartgoods =JSON.parse(localStorage.getItem(localStorage.key(i)));
-                        //解析层单层数组
-                        for (var j =0;j<this.cartgoods.length;j++){
-                            this.goodsvalue.push(this.cartgoods[j]);
-                        }
-                    }
-                }
-                for (var j =0;j<this.goodsvalue.length;j++){
-                    this.amount = this.amount + this.goodsvalue[j].mount;
-                }
             });
         }
     }
