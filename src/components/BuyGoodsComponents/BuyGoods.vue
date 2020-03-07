@@ -47,16 +47,13 @@
                 allprice:0,
                 price:10,
                 count:1,
-                chosenAddressId: '1',
                 orderleavemessage:'',
-                list: [
-                    {
-                        id: '1',
-                        name: '张三',
-                        tel: '13000000000',
-                        address: '浙江省杭州市西湖区文三路 138 号东方通信大厦 7 楼 501 室'
-                    },
-                ],
+                chosenAddressId: '1',
+                id:"",
+                name:"",
+                tel:"",
+                address:"",
+                list: [],
             }
         },
         methods:{
@@ -124,6 +121,16 @@
                 console.log(this.goodsvalue)
             }).catch((error) => {
                 this.$router.push({path:'/loginAndRegister/login'})
+            });
+            //获取当前用户下的收货地址
+            this.$axios.get('http://localhost:1000/project-service/goods/getaddress?token=' + this.$cookies.get("AUTH_TOKEN")).then((response) => {
+                this.id = response.data[0].selectid;
+                this.name=response.data[0].username;
+                this.tel = response.data[0].usertel;
+                this.address = response.data[0].useraddress+response.data[0].userdateliaddress;
+                var l =  {id: this.id, name: this.name, tel: this.tel, address: this.address};
+                this.list.push(l)
+            }).catch((error) => {
             });
         }
     }

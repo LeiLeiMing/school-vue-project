@@ -187,3 +187,13 @@
      git commit -m "xxxx"
      git push
 
+    项目提交github的步骤
+    1,vcs->import into ->create git repository
+    2,选择项目路径——》OK
+    3,vcs->git->add
+    4,vcs->git->commit file——>提交
+    5，弹出框选择 commit
+    6,vsc->import into->share project on github
+    7，输入仓库名，项目描述
+    8，share
+

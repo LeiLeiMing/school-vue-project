@@ -150,7 +150,7 @@
                 });
             }
         },
-        mounted: function () {
+        created: function () {
             //判断用户是否登录
             this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token=' + this.$cookies.get("AUTH_TOKEN")).then((response) => {
                 //从服务器数据库获取

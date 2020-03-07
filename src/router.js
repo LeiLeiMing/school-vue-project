@@ -16,6 +16,7 @@ import sellerfunction from './components/MineComponents/Function/SellerFunction.
 import login from  './components/LoginAndRegisterComponents/Login.vue'
 import register from './components/LoginAndRegisterComponents/Register.vue'
 import map from './components/MapCpmponents/BaiduMap.vue'
+import useraddress from './components/MineComponents/UserAddress.vue'
 var router = new VueRouter({
     routes:[
         /*默认访问组件*/
@@ -36,6 +37,7 @@ var router = new VueRouter({
         {path:'/loginAndRegister/login',component:login},
         {path:'/loginAndRegister/register',component:register},
         {path:'/map/selectaddress',component:map},
+        {path:'/mine/useraddress',component:useraddress},
     ],
     /*路由高亮*/
     linkActiveClass: 'mui-active',/*MUI的高亮*/
