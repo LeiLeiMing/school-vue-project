@@ -17,6 +17,7 @@ import login from  './components/LoginAndRegisterComponents/Login.vue'
 import register from './components/LoginAndRegisterComponents/Register.vue'
 import map from './components/MapCpmponents/BaiduMap.vue'
 import useraddress from './components/MineComponents/UserAddress.vue'
+import paysuccess from './components/BuyGoodsComponents/OrderPaySuccess.vue'
 var router = new VueRouter({
     routes:[
         /*默认访问组件*/
@@ -38,6 +39,7 @@ var router = new VueRouter({
         {path:'/loginAndRegister/register',component:register},
         {path:'/map/selectaddress',component:map},
         {path:'/mine/useraddress',component:useraddress},
+        {path:'/paysuccess',component:paysuccess},
     ],
     /*路由高亮*/
     linkActiveClass: 'mui-active',/*MUI的高亮*/

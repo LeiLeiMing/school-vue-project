@@ -48,8 +48,8 @@
         <van-goods-action>
             <van-goods-action-icon icon="chat-o" text="联系卖家"  />
             <van-goods-action-icon icon="star-o" text="收藏" />
-            <van-goods-action-button type="warning" text="加入购物车" @click="addcart" />
-            <van-goods-action-button type="danger" text="立即购买" @click="buynow"  />
+            <van-goods-action-button type="danger" text="加入购物车" @click="addcart" />
+<!--            <van-goods-action-button type="danger" text="立即购买" @click="buynow"  />-->
         </van-goods-action>
         <!---->
     </div>

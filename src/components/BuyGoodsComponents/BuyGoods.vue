@@ -6,7 +6,7 @@
         <van-sticky>
             <div style="height: 50px;background-color: white;">
                 <router-link to="/buy">
-                    <van-button @click="payorder" type="danger" round style="float: right">支付订单</van-button>
+                    <van-button @click="productorder" type="danger" round style="float: right">支付订单</van-button>
                 </router-link>
                 <span style="float:right;text-align: center;line-height: 50px;">
                         合计：<span style="color: red">￥{{allprice}}</span>
@@ -88,37 +88,48 @@
                 });
             },
             //生成订单
-            payorder:function () {
-                var outTradeNo="";  //订单号
-                for(var i=0;i<6;i++) //6位随机数，用以加在时间戳后面。
-                {
-                    outTradeNo += Math.floor(Math.random()*10);
-                }
-                outTradeNo = new Date().getTime() + outTradeNo;  //时间戳，用来生成订单号。
-                for (var i =0 ; i<this.goodsvalue.length;i++){
-                    this.$axios.post('http://localhost:1000/transaction-service/cart/generateorder?'
-                        +'token='+this.$cookies.get("AUTH_TOKEN")
-                        +'&sellerid='+this.goodsvalue[i].value.userid
-                        +'&goodsid='+this.goodsvalue[i].value.sellgoodsid
-                        +'&goodsmount='+this.goodsvalue[i].mount
-                        +'&allprice='+this.allprice
-                        +'&orderleavemessage='+this.orderleavemessage
-                        +'&orderid='+outTradeNo
-                    ).then((response) => {
-                        this.$toast({
-                            message:"订单添加成功"
-                        })
-                    }).catch((error) => {
+            productorder:function () {
+                this.$dialog.confirm({
+                    title: '消息提示',
+                    message: '即将离开前往支付宝页面支付'
+                }).then(() => {
+                    //确定
+                    var outTradeNo = "";
+                    for(var i=0;i<6;i++) //6位随机数，用以加在时间戳后面。
+                    {
+                        outTradeNo += Math.floor(Math.random()*10);
+                    }
+                    outTradeNo = new Date().getTime() + outTradeNo;  //时间戳，用来生成订单号。
+                    for (var i =0 ; i<this.goodsvalue.length;i++){
+                        this.$axios.post('http://localhost:1000/transaction-service/cart/generateorder?'
+                            +'token='+this.$cookies.get("AUTH_TOKEN")
+                            +'&sellerid='+this.goodsvalue[i].value.userid
+                            +'&goodsid='+this.goodsvalue[i].value.sellgoodsid
+                            +'&goodsmount='+this.goodsvalue[i].mount
+                            +'&allprice='+this.allprice
+                            +'&orderleavemessage='+this.orderleavemessage
+                            +'&orderid='+outTradeNo
+                            +'&orderaddress='+this.list[0].address
+                        ).then((response) => {
+                        }).catch((error) => {
 
-                    });
-                }
+                        });
+                    }
+                    this.payorder(outTradeNo,this.allprice,"desc")
+                }).catch(() => {
+                    //取消
+                    this.$router.push({path:'/mine'})
+                });
+            },
+            //支付订单
+            payorder:function (orderid,allprice,ordername) {
+                window.location.href = 'http://localhost:1000/transaction-service/alipay/pay?orderid='+orderid+'&orderprice='+allprice+'&ordername='+orderid+'&orderdesc=111111';
             }
         },
         mounted() {
             //判断登录状态
             this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
                 this.getCartGoods();
-                console.log(this.goodsvalue)
             }).catch((error) => {
                 this.$router.push({path:'/loginAndRegister/login'})
             });

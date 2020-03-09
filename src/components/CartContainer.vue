@@ -1,7 +1,7 @@
 <!--购物车页面-->
 <template>
     <div>
-        <van-nav-bar title="购物车" right-text="删除"/>
+        <van-nav-bar title="购物车"/>
         <div>
             <div v-show="this.goodsvalue.length != 0">
                 <van-sticky>
@@ -9,12 +9,9 @@
                         <div>
                             <van-button @click="addorder" type="danger" round style="float: right">提交订单</van-button>
                         </div>
-                        <span style="float:right;text-align: center;line-height: 50px;">
-                        合计：<span style="color: red">￥{{allprice}}</span>
-                    </span>
-                        <span style="float: left;margin-top: 15px;">
-                        <van-checkbox v-model="checked" checked-color="#07c160">全选</van-checkbox>
-                    </span>
+                        <span style="float:left;text-align: center;line-height: 50px;">
+                            合计：<span style="color: red">￥{{allprice}}</span>
+                        </span>
                     </div>
                 </van-sticky>
                 <van-notice-bar text="向左滑动商品单元格可以执行删除的操作哦~~" left-icon="volume-o" />
@@ -34,6 +31,11 @@
                             type="danger"
                             class="delete-button"
                     />
+<!--                    <van-cell title="购买数量：">-->
+<!--                        <button @click="reduce(index)">-</button>-->
+<!--                        <input style="width: 40px;height: 38px;text-align: center" readonly ="readonly" :value=goods.mount />-->
+<!--                        <button @click="add(index)">+</button>-->
+<!--                    </van-cell>-->
                 </van-swipe-cell>
             </div>
             <div v-show="this.goodsvalue.length == 0">
@@ -95,6 +97,17 @@
             apptab
         },
         methods:{
+            // reduce:function(index){
+            //     if ( this.goodsvalue[index].mount=== 0){
+            //         return;
+            //     }
+            //     this.goodsvalue[index].mount--;
+            //     this.allprice = this.allprice-this.goodsvalue[index].value.goodsprice;
+            // },
+            // add:function(index){
+            //     this.goodsvalue[index].mount++
+            //     this.allprice = this.allprice+this.goodsvalue[index].value.goodsprice
+            // },
             //从服务器获取购物车数据
             getCartGoods:function () {
                 this.$axios.get('http://localhost:1000/transaction-service/cart/getcart?token=' + this.$cookies.get("AUTH_TOKEN")).then((response) => {
@@ -111,7 +124,7 @@
             //加入订单
             addorder:function () {
                 this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
-                    //登录无误，转跳页面
+                    //跳转页面
                     this.$router.push({path:'/buygoods'})
                 }).catch((error) => {
                     this.$router.push({path:'/loginAndRegister/login'})
@@ -148,7 +161,7 @@
                 }).catch(() => {
                     // on cancel
                 });
-            }
+            },
         },
         created: function () {
             //判断用户是否登录

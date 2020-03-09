@@ -123,6 +123,7 @@ Vue.use(BaiduMap, {
 /*引入axios*/
 import axios from 'axios';
 Vue.prototype.$axios = axios;
+
 import QS from 'qs'
 Vue.prototype.$qs = QS;
 
