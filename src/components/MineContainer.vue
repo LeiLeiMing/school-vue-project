@@ -15,7 +15,7 @@
         components:{
             apptab,
             minemain,
-            baidumap
+            baidumap,
         },
         mounted() {
 

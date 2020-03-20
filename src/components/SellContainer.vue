@@ -2,6 +2,20 @@
 <template>
     <div>
         <van-nav-bar title="发布商品" left-arrow  @click-left="onClickLeft"/>
+        <!--加载栏-->
+        <van-overlay :show="loadingshow" >
+            <div class="wrapper" @click.stop>
+                <div class="block" >
+                    <div style="margin-top: 20px;margin-left: 40px">
+                        <div style="margin-left: 8px">
+                            <van-loading type="spinner" color="#1989fa" />
+                        </div>
+                        <br>
+                        发布中...
+                    </div>
+                </div>
+            </div>
+        </van-overlay>
         <van-notice-bar :scrollable="false">
             注意：发布的商品内容需真实，请仔细填写所有项
         </van-notice-bar>
@@ -100,6 +114,7 @@
     export default {
         data() {
             return {
+                loadingshow:false,
                 selectaddress:'选择发货地点',
                 price:'', //价格
                 mount:'', //数量
@@ -260,9 +275,7 @@
                     const  indexfile = this.indexfileList[i].file
                     indexfileList.append('files', indexfile);
                 }
-                this.$toast({
-                    message:"发布中..."
-                });
+                this.loadingshow = true;
                 this.$axios.post('http://localhost:9090/goods/sell?'
                     + 'goodsname='+this.goodsname
                     + '&goodstype='+this.value
@@ -276,12 +289,13 @@
                     indexfileList,
                     fileList
                 ).then((response) => {
-                        this.$toast({
-                            message:"发布成功,可在卖家功能的全部商品处查看哦"
-                        });
-                        this.$router.push({path:'/mine'})
+                    this.loadingshow = false;
+                    this.$toast({
+                        message:"发布成功,可在卖家功能的全部商品处查看哦"
+                    });
+                    this.$router.push({path:'/mine'})
                 }).catch((error) => {
-                    console.log(error)
+                    this.loadingshow = false;
                     if (error.response.status == 403){
                         this.$toast({
                             message:"您未登录，请登录后发布哦~~"
@@ -318,5 +332,18 @@
         text-align: center;
         background-color: #ee0a24;
         border-radius: 100px;
+    }
+
+    .wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .block {
+        width: 120px;
+        height: 120px;
+        background-color: #fff;
     }
 </style>

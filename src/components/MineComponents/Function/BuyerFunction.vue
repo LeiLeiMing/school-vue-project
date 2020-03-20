@@ -30,7 +30,7 @@
                         待评价
                     </div>
                     <div v-if="activeNumber == 4">
-                        我的订单
+                        <myallorder/>
                     </div>
                     <div v-if="activeNumber == 5">
                         我的收藏
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+    import myallorder from "../MyAllOrder.vue"
     export default {
         data(){
             return{
@@ -59,6 +60,9 @@
                     {name:"我的收货地址"},
                 ]
             }
+        },
+        components:{
+            myallorder,
         },
         methods:{
             onClickLeft:function () {

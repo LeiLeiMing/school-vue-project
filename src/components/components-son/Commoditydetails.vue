@@ -10,7 +10,7 @@
                 loading-text="拼命加载中..."
         >
             <!--商品卡片-->
-            <router-link v-for="(g,index) in goods" :key="index" :to="'/list/all/'+index">
+            <router-link v-for="(g,index) in goods" :key="index" :to="'/index/onegoods/'+g.sellgoodsid">
                 <van-card :price=g.goodsprice :desc=g.goodsdesc :title=g.goodsname :thumb=g.allimageaddress[0].imageaddress />
             </router-link>
         </van-list>

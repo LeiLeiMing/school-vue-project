@@ -147,8 +147,6 @@
             },
             //将商品数据存进本地
             savecartlocal:function () {
-                //清楚上一次的
-                //localStorage.clear();
                 var cartinfo = localStorage.getItem(this.goodsinfo.sellgoodsid)
                 //已经有了，数量加1
                 if (cartinfo!==null){

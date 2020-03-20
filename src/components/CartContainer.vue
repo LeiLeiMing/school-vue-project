@@ -2,6 +2,20 @@
 <template>
     <div>
         <van-nav-bar title="购物车"/>
+        <!--加载栏-->
+        <van-overlay :show="show" >
+            <div class="wrapper" @click.stop>
+                <div class="block" >
+                    <div style="margin-top: 20px;margin-left: 40px">
+                        <div style="margin-left: 8px">
+                            <van-loading type="spinner" color="#1989fa" />
+                        </div>
+                        <br>
+                        加载中
+                    </div>
+                </div>
+            </div>
+        </van-overlay>
         <div>
             <div v-show="this.goodsvalue.length != 0">
                 <van-sticky>
@@ -31,11 +45,6 @@
                             type="danger"
                             class="delete-button"
                     />
-<!--                    <van-cell title="购买数量：">-->
-<!--                        <button @click="reduce(index)">-</button>-->
-<!--                        <input style="width: 40px;height: 38px;text-align: center" readonly ="readonly" :value=goods.mount />-->
-<!--                        <button @click="add(index)">+</button>-->
-<!--                    </van-cell>-->
                 </van-swipe-cell>
             </div>
             <div v-show="this.goodsvalue.length == 0">
@@ -75,6 +84,7 @@
     export default {
         data(){
             return{
+                show:true,
                 amount: 0,
                 checked: true,
                 /*购物车*/
@@ -97,17 +107,6 @@
             apptab
         },
         methods:{
-            // reduce:function(index){
-            //     if ( this.goodsvalue[index].mount=== 0){
-            //         return;
-            //     }
-            //     this.goodsvalue[index].mount--;
-            //     this.allprice = this.allprice-this.goodsvalue[index].value.goodsprice;
-            // },
-            // add:function(index){
-            //     this.goodsvalue[index].mount++
-            //     this.allprice = this.allprice+this.goodsvalue[index].value.goodsprice
-            // },
             //从服务器获取购物车数据
             getCartGoods:function () {
                 this.$axios.get('http://localhost:1000/transaction-service/cart/getcart?token=' + this.$cookies.get("AUTH_TOKEN")).then((response) => {
@@ -168,7 +167,9 @@
             this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token=' + this.$cookies.get("AUTH_TOKEN")).then((response) => {
                 //从服务器数据库获取
                 this.getCartGoods();
+                this.show = false;
             }).catch((error) => {
+                this.show = false;
                 this.$toast({
                     message:"您未登录，登录后可查看购物车的商品哦"
                 })
@@ -183,5 +184,18 @@
 
     .delete-button {
         height: 100%;
+    }
+
+    .wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .block {
+        width: 120px;
+        height: 120px;
+        background-color: #fff;
     }
 </style>

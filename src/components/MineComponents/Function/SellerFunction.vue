@@ -17,7 +17,7 @@
                       animated:yes>
                 <van-tab v-for="(seller,index) in buyerfunction" :key="index" :title=seller.name>
                     <div v-if="activeNumber == 0">
-                        待发货
+                        <tobeshipped/>
                     </div>
                     <div v-if="activeNumber == 1">
                         已发货
@@ -39,6 +39,7 @@
 
 <script>
     import grounding from './GroundingGoods.vue'
+    import tobeshipped from '../Tobeshipped.vue'
     export default {
         data(){
             return{
@@ -54,6 +55,7 @@
         },
         components:{
             grounding,
+            tobeshipped
         },
         methods:{
             onClickLeft:function () {

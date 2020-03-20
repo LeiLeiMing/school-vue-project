@@ -139,6 +139,14 @@ Vue.use(AddressList);
 import { SwipeCell } from 'vant';
 Vue.use(SwipeCell);
 
+/*遮罩层*/
+import { Overlay } from 'vant';
+Vue.use(Overlay);
+
+/*加载中*/
+import { Loading } from 'vant';
+Vue.use(Loading);
+
 /*首页组件*/
 import App from './App.vue'
 let vue = new Vue({
