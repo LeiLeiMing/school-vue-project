@@ -18,7 +18,7 @@
                       animated:yes>
                 <van-tab v-for="(buyer,index) in buyerfunction" :key="index" :title=buyer.name>
                     <div v-if="activeNumber == 0">
-                        待支付
+                        <son :type=type[0].name />
                     </div>
                     <div v-if="activeNumber == 1">
                         待收货
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+    import son from "./BuyFunctionTabComponents.vue"
     import myallorder from "../MyAllOrder.vue"
     export default {
         data(){
@@ -58,11 +59,15 @@
                     {name:"我的订单"},
                     {name:"我的收藏"},
                     {name:"我的收货地址"},
+                ],
+                type:[
+                    {name:"tobepaid"},
                 ]
             }
         },
         components:{
             myallorder,
+            son
         },
         methods:{
             onClickLeft:function () {

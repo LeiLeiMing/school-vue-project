@@ -123,11 +123,9 @@
                                 message:"账号密码错误"
                             })
                         }
-                        if(error.response.status == 500){
-                            this.$toast({
-                                message:"服务器异常"
-                            })
-                        }
+                        this.$toast({
+                            message:"服务异常"
+                        })
                     });
 
                 }
