@@ -1,5 +1,19 @@
 <template>
     <div>
+        <!--加载栏-->
+        <van-overlay :show="show" >
+            <div class="wrapper" @click.stop>
+                <div class="block" >
+                    <div style="margin-top: 20px;margin-left: 40px">
+                        <div style="margin-left: 8px">
+                            <van-loading type="spinner" color="#1989fa" />
+                        </div>
+                        <br>
+                        加载中
+                    </div>
+                </div>
+            </div>
+        </van-overlay>
         <div class="back" :style="{backgroundImage: 'url(' + back + ')' }">
            <div style="width: 100%;height: 400px;">
                <van-tabs v-model="active">
@@ -39,6 +53,7 @@
     export default {
         data(){
             return{
+                show:false,
                 back: back,
                 phone:"",
                 password:"",
@@ -87,9 +102,11 @@
                     })
                     return;
                 }else{
+                    this.show = true;
                     this.$axios.post('http://localhost:1000/auth-service/auth/check?phone='+this.phone+'&password='+this.password).then((response) => {
                         //存进浏览器cookie，时间以秒计算，30分钟
                         this.$cookies.set("AUTH_TOKEN",response.data[0],'30min')
+                        this.show = false;
                         if (response.status == 200){
                             this.$toast({
                                 message:"登录成功"
@@ -99,6 +116,7 @@
                             return
                         }
                     }).catch((error) => {
+                        this.show = false;
                         //只有用箭头函数才能写this
                         if (error.response.status == 401){
                             this.$toast({
@@ -129,5 +147,18 @@
     .back{
         width: 100%;
         height: 850px;
+    }
+
+    .wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .block {
+        width: 120px;
+        height: 120px;
+        background-color: #fff;
     }
 </style>

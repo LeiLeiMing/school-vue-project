@@ -6,6 +6,20 @@
         <van-nav-bar v-if="messageshow==true" title="个人中心" >
             <van-icon name="chat-o" size="28px" :info="this.infomount==0?'':this.infomount" slot="right" @click="message"/>
         </van-nav-bar>
+        <!--加载栏-->
+        <van-overlay :show="loadingshow" >
+            <div class="wrapper" @click.stop>
+                <div class="block" >
+                    <div style="margin-top: 20px;margin-left: 40px">
+                        <div style="margin-left: 8px">
+                            <van-loading type="spinner" color="#1989fa" />
+                        </div>
+                        <br>
+                        加载中
+                    </div>
+                </div>
+            </div>
+        </van-overlay>
         <van-popup
                 v-model="show"
                 position="right"
@@ -80,6 +94,7 @@
     export default {
         data(){
             return{
+                loadingshow:true,
                 back: back,
                 infomount:0,
                 messagelist:[],
@@ -116,17 +131,19 @@
             //采用此种写法能避免cookie的token和服务器端新的token不同步的问题
             this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
                 this.messageshow = true;
-                if (response != null){
+                this.loadingshow = false;
+                if (response != null) {
                     //更新Cookie里面新的token,避免cookie里面的token没变，而服务器的token的却变了
-                    this.$cookies.set("AUTH_TOKEN",response.data.newtoken,'30min')
+                    this.$cookies.set("AUTH_TOKEN", response.data.newtoken, '30min')
                     this.userdata = response.data.userinfo;
                     //这里将会从服务true器获取当前用户信息，如果没有，传回一个false
                     this.isLogin = true;
-                }else{
-                    //未登录页面
-                    this.isLogin = false;
                 }
-            })
+            }).catch((error) => {
+                //未登录页面
+                this.loadingshow = false;
+                this.isLogin = false;
+            });
             //获取当前用户收到的消息
             this.$axios.get('http://localhost:1000/transaction-service/cart/getmessage?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
                 this.messagelist = response.data;
@@ -142,5 +159,16 @@
     }
 </script>
 <style scoped>
+    .wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
 
+    .block {
+        width: 120px;
+        height: 120px;
+        background-color: #fff;
+    }
 </style>
