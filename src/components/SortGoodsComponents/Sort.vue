@@ -18,28 +18,34 @@
                       animated:yes>
                 <van-tab v-for="(sort,index) in sortimges" :key="index" :title=sort.name>
                     <div v-if="activeNumber == 0">
-                      <study />
+                        <son :type=sortimges[0].name />
                     </div>
                     <div v-if="activeNumber == 1">
-                        1
+                        <son :type=sortimges[1].name />
                     </div>
                     <div v-if="activeNumber == 2">
-                        2
+                        <son :type=sortimges[2].name />
                     </div>
                     <div v-if="activeNumber == 3">
-                        3
+                        <son :type=sortimges[3].name />
                     </div>
                     <div v-if="activeNumber == 4">
-                       4
+                        <son :type=sortimges[4].name />
                     </div>
                     <div v-if="activeNumber == 5">
-                       5
+                        <son :type=sortimges[5].name />
                     </div>
                     <div v-if="activeNumber == 6">
-                        6
+                        <son :type=sortimges[6].name />
                     </div>
                     <div v-if="activeNumber == 7">
-                        7
+                        <son :type=sortimges[7].name />
+                    </div>
+                    <div v-if="activeNumber == 8">
+                        <son :type=sortimges[8].name />
+                    </div>
+                    <div v-if="activeNumber == 9">
+                        <son :type=sortimges[9].name />
                     </div>
                 </van-tab>
             </van-tabs>
@@ -48,7 +54,7 @@
 </template>
 <script>
     /*引入分类的组件*/
-    import study from './StudyComponents.vue'
+    import son from './SortSonComponents.vue'
     export default {
         data(){
             return{
@@ -69,7 +75,7 @@
             }
         },
         components:{
-            study,
+            son,
         },
         methods:{
             onClickLeft:function () {

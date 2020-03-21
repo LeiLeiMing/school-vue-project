@@ -73,6 +73,7 @@
                 <van-tab title="我是买家"><buyer/></van-tab>
                 <van-tab title="我是卖家"><seller/></van-tab>
             </van-tabs>
+            <van-cell title="设置中心" icon="setting" is-link value="" size="large" to="/mine/setting"/>
         </div>
         <!--未登录-->
         <div v-else>
