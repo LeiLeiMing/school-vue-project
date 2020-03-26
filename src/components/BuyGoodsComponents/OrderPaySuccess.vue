@@ -24,6 +24,10 @@
         name: "OrderPaySuccess",
         components:{
             apptab
+        },
+        mounted() {
+            //清空本地购物车
+            localStorage.clear();
         }
     }
 </script>

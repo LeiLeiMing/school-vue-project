@@ -8,7 +8,7 @@
                         :price=goods.goodsPojo.goodsprice
                         :desc=goods.goodsPojo.goodsdesc
                         :title=goods.goodsPojo.goodsname
-                        thumb="http://leiming-secondhand.oss-cn-beijing.aliyuncs.com/wave-2089959__340.jpg?Expires=1584950573&OSSAccessKeyId=LTAI4aW45giA1D7p&Signature=flTeU0urj2V5z8iZ2cQcyU3G2Yg%3D"
+                        :thumb=goods.goodsPojo.imageaddress.imageaddress
                         tag="待发货"
                 />
             </van-swipe-cell>

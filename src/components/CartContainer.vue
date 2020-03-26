@@ -76,7 +76,7 @@
         </div>
         <!--底部tab栏-->
         <!--把amount传给子组件展示-->
-        <apptab ></apptab>
+        <apptab></apptab>
     </div>
 </template>
 <script>
@@ -84,6 +84,7 @@
     export default {
         data(){
             return{
+                number:"",
                 show:true,
                 amount: 0,
                 checked: true,

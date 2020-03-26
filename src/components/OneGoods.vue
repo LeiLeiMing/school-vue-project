@@ -3,7 +3,7 @@
 <template>
     <div>
         <van-sticky :offset-top="0">
-            <van-nav-bar style="height: 45px" title="爆款衣服" left-arrow  @click-left="onClickLeft"/>
+            <van-nav-bar style="height: 45px" title="商品详情" left-arrow  @click-left="onClickLeft"/>
         </van-sticky>
         <van-swipe  :height="300" >
             <van-swipe-item v-for="(image, index) in indeximage" :key="index">

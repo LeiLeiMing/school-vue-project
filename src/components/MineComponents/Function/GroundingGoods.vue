@@ -3,19 +3,9 @@
     <div>
         <!--商品卡片-->
         <div v-for="(g,index) in groundinggoods"  :key="index" >
-            <div v-show="g.takesstatus == 1">
+            <div>
                 <router-link  :to="'/list/all/'+g.sellgoodsid">
-                    <van-card :price=g.goodsprice :desc=g.goodsdesc tag="上架中"  :title=g.goodsname  :num=g.goodsmount :thumb=g.imageaddress.imageaddress  :to="'/list/all/'+g.sellgoodsid"/>
-                </router-link>
-            </div>
-            <div v-show="g.takesstatus == 2">
-                <router-link  :to="'/list/all/'+g.sellgoodsid">
-                    <van-card :price=g.goodsprice  :desc=g.goodsdesc tag="被下单"  :title=g.goodsname  :num=g.goodsmount :thumb=g.imageaddress.imageaddress  :to="'/list/all/'+g.sellgoodsid"/>
-                </router-link>
-            </div>
-            <div v-show="g.takesstatus == 3">
-                <router-link  :to="'/list/all/'+g.sellgoodsid">
-                    <van-card :price=g.goodsprice :desc=g.goodsdesc tag="已售出"  :title=g.goodsname  :num=g.goodsmount :thumb=g.imageaddress.imageaddress  :to="'/list/all/'+g.sellgoodsid"/>
+                    <van-card :price=g.goodsprice :desc=g.goodsdesc  :title=g.goodsname  :num=g.goodsmount :thumb=g.imageaddress.imageaddress  :to="'/list/all/'+g.sellgoodsid"/>
                 </router-link>
             </div>
         </div>
