@@ -5,7 +5,6 @@
         </van-sticky>
         <div>
             <van-tabs v-model="activeNumber"
-                      animated
                       swipeable
                       sticky
                       :border="false"
@@ -17,19 +16,21 @@
                       animated:yes>
                 <van-tab v-for="(seller,index) in buyerfunction" :key="index" :title=seller.name>
                     <div v-if="activeNumber == 0">
-                        <tobeshipped/>
+                        <!--待发货-->
+                        <son :typevalue=type[0].name />
                     </div>
                     <div v-if="activeNumber == 1">
-                        已发货
+                        <son :typevalue=type[1].name />
                     </div>
                     <div v-if="activeNumber == 2">
-                        已售出
+                        <son :typevalue=type[2].name />
                     </div>
                     <div v-if="activeNumber == 3">
-                        <grounding />
+                        <!--已上架-->
+                        <son :typevalue=type[3].name />
                     </div>
                     <div v-if="activeNumber == 4">
-                        收到的议价
+                        <son :typevalue=type[4].name />
                     </div>
                 </van-tab>
             </van-tabs>
@@ -38,8 +39,7 @@
 </template>
 
 <script>
-    import grounding from './GroundingGoods.vue'
-    import tobeshipped from '../Tobeshipped.vue'
+    import son from './SellerFunctionTabComponents.vue'
     export default {
         data(){
             return{
@@ -50,12 +50,18 @@
                     {name:"已售出"},
                     {name:"上架的商品"},
                     {name:"收到的议价"},
+                ],
+                type:[
+                    {name:"tobeshiped"}, //待发货
+                    {name:"hadshiped"}, //已发货
+                    {name:"hadsell"}, //已售出
+                    {name:"onsell"}, //上架中
+                    {name:"takeprice"}, //议价
                 ]
             }
         },
         components:{
-            grounding,
-            tobeshipped
+            son,
         },
         methods:{
             onClickLeft:function () {

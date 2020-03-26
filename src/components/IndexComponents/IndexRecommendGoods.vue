@@ -4,7 +4,7 @@
         <van-grid  :border="false" :column-num="2" :gutter="5">
             <van-grid-item v-for="(g,index) in recommendgoods" :key="index">
                 <router-link :to="'/index/onegoods/'+g.sellgoodsid">
-                    <img width="130px" height="150px" :src=g.allimageaddress[0].imageaddress />
+                    <img width="160px" height="160px" :src=g.allimageaddress[0].imageaddress />
                 </router-link>
                 <span style="font-size: 10px;margin-top: 10px">{{g.goodsname}}</span>
                 <span>{{g.goodsprice}}</span>

@@ -1,6 +1,21 @@
 <!--界面组件-->
 <template>
     <div>
+        <!--加载栏-->
+        <van-overlay :show="show" >
+            <div class="wrapper" style="margin-top: 50%" @click.stop>
+                <div class="block" >
+                    <div style="margin-top: 20px;margin-left: 40px">
+                        <div style="margin-left: 8px">
+                            <van-loading type="spinner" color="#1989fa" />
+                        </div>
+                        <br>
+                        加载中
+                    </div>
+                </div>
+            </div>
+        </van-overlay>
+
         <div v-for="(g,key) in tobepaidorder"  :key="key" >
             <div v-for="(order,index) in g" :key="index">
                 <router-link  :to="'/list/all/'+order.goodsPojo.sellgoodsid">
@@ -23,19 +38,37 @@
         name: "BuyFunctionTabComponents",
         data(){
             return{
+                show:true,
                 tobepaidorder:[]
             }
         },
         //获取
         mounted() {
-            console.log(this.type)
+            if (this.$cookies.get("AUTH_TOKEN")==null){
+                this.$toast({
+                    message:"登录信息失效，请重新登录~"
+                })
+                this.$router.push({path:'/mine'})
+                return;
+            }
+            //待支付
             if (this.type=="tobepaid"){
                 //待支付数据
                 this.$axios.get('http://localhost:1000/transaction-service/cart/gettobepaidorder?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
                     this.tobepaidorder = response.data;
-                    console.log(this.tobepaidorder)
+                    this.show = false;
                 }).catch((error) => {
-
+                    this.show = false;
+                    if (error.response.status == 403){
+                        this.$toast({
+                            message:"登录信息失效，请重新登录~"
+                        })
+                        this.$router.push({path:'/mine'})
+                    }else{
+                        this.$toast({
+                            message:"服务器出小差了~"
+                        })
+                    }
                 });
             }
         }
@@ -43,5 +76,15 @@
 </script>
 
 <style scoped>
+    .wrapper {
+        display: flex;
+        justify-content: center;
+        height: 100%;
+    }
 
+    .block {
+        width: 120px;
+        height: 120px;
+        background-color: #fff;
+    }
 </style>
