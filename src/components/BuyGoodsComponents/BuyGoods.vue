@@ -24,12 +24,6 @@
         </router-link>
 
         <van-cell-group>
-            <!--步进选择-->
-<!--            <van-cell title="购买数量：">-->
-<!--                <button @click="reduce(index)">-</button>-->
-<!--                <input style="width: 40px;height: 38px;text-align: center" readonly ="readonly" :value=count />-->
-<!--                <button @click="add(index)">+</button>-->
-<!--            </van-cell>-->
             <van-field v-model="orderleavemessage" rows="1" autosize label="订单备注：" type="textarea" placeholder="请输入订单的备注"/>
         </van-cell-group>
         <!--修改收货地址-->
@@ -99,7 +93,10 @@
                     {
                         outTradeNo += Math.floor(Math.random()*10);
                     }
-                    outTradeNo = new Date().getTime() + outTradeNo;  //时间戳，用来生成订单号。
+                    //时间戳，用来生成订单号。
+                    outTradeNo = new Date().getTime() + outTradeNo;
+                    //将当前的订单号存进local数据库
+                    localStorage.setItem("orderid",outTradeNo);
                     for (var i =0 ; i<this.goodsvalue.length;i++){
                         this.$axios.post('http://localhost:1000/transaction-service/cart/generateorder?'
                             +'token='+this.$cookies.get("AUTH_TOKEN")
@@ -123,10 +120,24 @@
             },
             //支付订单
             payorder:function (orderid,allprice,ordername) {
+                this.orderid = orderid;
                 window.location.href = 'http://localhost:1000/transaction-service/alipay/pay?orderid='+orderid+'&orderprice='+allprice+'&ordername='+orderid+'&orderdesc=111111';
             }
         },
         mounted() {
+            //从localstorag获取orderid
+            var orderid = localStorage.getItem("orderid");
+            if (orderid!=null){
+                //查询订单的交易状态
+                this.$axios.get('http://localhost:1000/transaction-service/alipay/query?orderid='+orderid).then((response) => {
+                    if (response.data.alipay_trade_query_response.code == "10000"){
+                        this.$axios.get('http://localhost:1000/transaction-service/alipay/alipayresult?orderid='+orderid).then((response) => {
+                        }).catch((error) => {});
+                    }
+                }).catch((error) => {
+                    // this.$router.push({path:'/loginAndRegister/login'})
+                });
+            }
             //判断登录状态
             this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
                 this.getCartGoods();

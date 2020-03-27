@@ -24,7 +24,9 @@
                 <span class="mui-tab-label">购物车</span>
             </router-link>
             <router-link class="mui-tab-item " to="/mine">
-                <span class="mui-icon mui-icon-person"></span>
+                <span class="mui-icon mui-icon-person">
+                    <span class="mui-badge" v-if="messagecount!=0">{{messagecount}}</span>
+                </span>
                 <span class="mui-tab-label">我的</span>
             </router-link>
         </nav>
@@ -41,7 +43,9 @@
             return{
                 amount:0,
                 cartgoods:[],
-                goodsvalue:[]
+                goodsvalue:[],
+                messagecount:0,
+
             }
         },
         methods:{
@@ -61,6 +65,14 @@
 
                 });
             },
+            message:function () {
+                //获取当前用户收到的未读消息数量
+                this.$axios.get('http://localhost:1000/transaction-service/cart/getmessagemount?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
+                   this.messagecount = response.data
+                }).catch((error) => {
+                    this.show = false;
+                });
+            }
         },
         /*加载时，从数据库获取用户下的购物车数量*/
         mounted() {
@@ -68,6 +80,7 @@
             this.$axios.get('http://localhost:1000/auth-service/auth/userinfo?token=' + this.$cookies.get("AUTH_TOKEN")).then((response) => {
                 //从服务器数据库获取
                 this.getCartGoods();
+                this.message();
             }).catch((error) => {
             });
         }
