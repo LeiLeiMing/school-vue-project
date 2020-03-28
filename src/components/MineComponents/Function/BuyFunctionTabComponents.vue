@@ -16,18 +16,20 @@
             </div>
         </van-overlay>
 
-        <div v-for="(g,key) in tobepaidorder"  :key="key" >
-            <div v-for="(order,index) in g" :key="index">
-                <router-link  :to="'/list/all/'+order.goodsPojo.sellgoodsid">
-                    <van-card :price=order.goodsPojo.goodsprice :desc=order.goodsPojo.goodsdesc tag="待支付"  :title=order.goodsPojo.goodsname  :num=order.goodsmount :thumb=order.goodsPojo.imageaddress.imageaddress  :to="'/list/all/'+g.sellgoodsid"/>
-                </router-link>
-            </div>
-            <van-cell >
-                <div style="float: right">
-                    <van-button type="default" round >删除订单</van-button>
-                    <van-button type="danger" round >立即支付</van-button>
+        <div v-show="tobepaidorder.length!=0">
+            <div v-for="(g,key) in tobepaidorder"  :key="key" >
+                <div v-for="(order,index) in g" :key="index">
+                    <router-link  :to="'/list/all/'+order.goodsPojo.sellgoodsid">
+                        <van-card :price=order.goodsPojo.goodsprice :desc=order.goodsPojo.goodsdesc tag="待支付"  :title=order.goodsPojo.goodsname  :num=order.goodsmount :thumb=order.goodsPojo.imageaddress.imageaddress  :to="'/list/all/'+g.sellgoodsid"/>
+                    </router-link>
                 </div>
-            </van-cell>
+                <van-cell >
+                    <div style="float: right">
+                        <van-button type="default" round @click="deletedorder(g[0].orderid)" >删除订单</van-button>
+                        <van-button type="danger" round >立即支付</van-button>
+                    </div>
+                </van-cell>
+            </div>
         </div>
     </div>
 </template>
@@ -41,6 +43,28 @@
                 show:true,
                 tobepaidorder:[]
             }
+        },
+        methods:{
+            //删除待支付订单
+            deletedorder:function (orderid) {
+                this.$axios.get('http://localhost:1000/transaction-service/cart/deltopaidorder?token='+this.$cookies.get("AUTH_TOKEN")+'&orderid='+orderid).then((response) => {
+                    this.$toast({
+                        message:"删除成功"
+                    });
+                    this.$router.push({path:'/mine'})
+                }).catch((error) => {
+                    this.show = false;
+                    if (error.response.status == 403){
+                        this.$toast({
+                            message:"登录信息失效，请重新登录~"
+                        })
+                        this.$router.push({path:'/mine'})
+                    }
+                    this.$toast({
+                        message:"服务异常，请稍后重试"
+                    })
+                });
+            },
         },
         //获取
         mounted() {

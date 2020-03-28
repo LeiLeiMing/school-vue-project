@@ -37,16 +37,18 @@
                         />
                     </div>
                     <div style="width: 75%;float: right;margin-top: 5px">
-                        <van-icon :dot="message.status==0?true:false" @click="hadread(index,message.id)">
-                            <div>
-                                <font v-show="message.status==0?true:false" style="font-size: 12px;color: #dd524d">系统通知</font>
-                                <font v-show="message.status==1?true:false" style="font-size: 12px;color: #8f8f94">系统通知</font>
-                                <font style="font-size: 8px;color: #8f8f94;margin-left: 10px">{{message.time}}</font>
-                            </div>
-                            <div>
-                                <font style="font-size: 8px;color: #8f8f94;">{{message.message}}</font>
-                            </div>
-                        </van-icon>
+                        <router-link to="/seller/0">
+                            <van-icon :dot="message.status==0?true:false" @click="hadread(index,message.id)">
+                                <div>
+                                    <font v-show="message.status==0?true:false" style="font-size: 12px;color: #dd524d">系统通知</font>
+                                    <font v-show="message.status==1?true:false" style="font-size: 12px;color: #8f8f94">系统通知</font>
+                                    <font style="font-size: 8px;color: #8f8f94;margin-left: 10px">{{message.time}}</font>
+                                </div>
+                                <div>
+                                    <font style="font-size: 8px;color: #8f8f94;">{{message.message}}</font>
+                                </div>
+                            </van-icon>
+                        </router-link>
                     </div>
                     <van-button
                             @click="deletemessage(index)"
@@ -70,8 +72,18 @@
                 </div>
             </div>
             <van-tabs v-model="active">
-                <van-tab title="我是买家"><buyer/></van-tab>
-                <van-tab title="我是卖家"><seller/></van-tab>
+                <van-tab >
+                    <template #title>
+                        <van-icon name="friends" size="15"/>我是买家
+                    </template>
+                    <buyer/>
+                </van-tab>
+                <van-tab >
+                    <template #title>
+                        <van-icon name="point-gift" size="15"/>我是卖家
+                    </template>
+                    <seller/>
+                </van-tab>
             </van-tabs>
             <van-cell title="设置中心" icon="setting" is-link value="" size="large" to="/mine/setting"/>
         </div>

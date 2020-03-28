@@ -197,3 +197,11 @@
     7，输入仓库名，项目描述
     8，share
 
+阿里云部署：
+git clone 项目
+安装node.js
+进入linux，把node_mould文件删了
+npm install
+vim package.json  在dev 后面加上 --host 0.0.0.0
+npm run dev
+完成。
