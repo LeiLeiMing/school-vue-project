@@ -27,7 +27,7 @@
                         已买到
                     </div>
                     <div v-if="activeNumber == 3">
-                        待评价
+                        购买记录
                     </div>
                     <div v-if="activeNumber == 4">
                         <myallorder/>
@@ -55,7 +55,7 @@
                     {name:"待支付"},
                     {name:"待收货"},
                     {name:"已买到"},
-                    {name:"待评论"},
+                    {name:"购买记录"},
                     {name:"我的订单"},
                     {name:"我的收藏"},
                     {name:"我的收货地址"},

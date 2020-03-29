@@ -11,6 +11,7 @@
                 <router-link :to="'/list/all/'+goods.sellgoodsid">
                     <span style="margin-left: 100px"><van-icon name="cart-circle-o" color="red" size="30px" /></span>
                 </router-link>
+                <br><span><font size="1px"> {{goods.goodsaddress}}</font></span>
             </van-grid-item>
         </van-grid>
     </div>

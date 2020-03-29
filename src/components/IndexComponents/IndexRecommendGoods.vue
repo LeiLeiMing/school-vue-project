@@ -7,9 +7,10 @@
                     <img width="160px" height="160px" :src=g.allimageaddress[0].imageaddress />
                 </router-link>
                 <span style="font-size: 10px;margin-top: 10px">{{g.goodsname}}</span>
-                <span>{{g.goodsprice}}</span>
+                <span>￥{{g.goodsprice}}</span>
                 <div >
                     <span style="margin-left: 100px" ><van-icon name="cart-circle-o" color="red" size="30px" /></span>
+                    <br><span><font size="1px"> {{g.goodsaddress}}</font></span>
                 </div>
             </van-grid-item>
         </van-grid>

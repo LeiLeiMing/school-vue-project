@@ -13,9 +13,20 @@
         <div>
             <van-panel>
                 <div>{{this.goodsinfo.goodsname}}</div>
+                <div>
+                    <font size="2px">
+                        {{this.goodsinfo.goodsdesc}}
+                    </font>
+                </div>
                 <van-divider />
-                <div><h6>浏览次数:{{this.goodsinfo.clickmount}} &nbsp &nbsp &nbsp 库存:{{this.goodsinfo.goodsmount}}</h6></div>
                 <div style="color: red">价格：￥{{this.goodsinfo.goodsprice}}</div>
+                <div>
+                    <h6>
+                        浏览次数:{{this.goodsinfo.clickmount}} &nbsp &nbsp &nbsp 库存:{{this.goodsinfo.goodsmount}}
+                        &nbsp &nbsp &nbsp{{this.goodsinfo.goodsaddress}}
+                    </h6>
+                </div>
+                <van-divider />
                 <div v-if="this.goodsinfo.baoyou == 1">
                     <h6>此商品包邮，七天无忧退换</h6>
                 </div>
