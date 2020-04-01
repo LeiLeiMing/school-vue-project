@@ -15,32 +15,24 @@
                 </div>
             </div>
         </van-overlay>
+
         <div>
-            <div v-for="(g,key) in paidorder"  :key="key" >
+            <div v-for="(g,key) in order"  :key="key" >
                 <div v-for="(order,index) in g" :key="index">
                     <router-link  :to="'/list/all/'+order.goodsPojo.sellgoodsid">
                         <van-card :price=order.goodsPojo.goodsprice :desc=order.goodsPojo.goodsdesc tag="待支付"  :title=order.goodsPojo.goodsname  :num=order.goodsmount :thumb=order.goodsPojo.imageaddress.imageaddress  :to="'/list/all/'+g.sellgoodsid"/>
                     </router-link>
                 </div>
                 <van-cell >
-                    <div style="float: right">
+                    <div v-show="type=='tobepaid'" style="float: right">
                         <van-button type="default" round @click="deletedorder(g[0].orderid)" >删除订单</van-button>
                         <van-button type="danger" round >立即支付</van-button>
                     </div>
                 </van-cell>
             </div>
         </div>
-<!--        <div v-show="this.tobepaidorder.length==0" style="height: 500px">-->
-<!--            <div style="margin-left: 130px;margin-top: 50%">-->
-<!--                <van-image-->
-<!--                        width="100"-->
-<!--                        height="100"-->
-<!--                        src="https://leiming-secondhand.oss-cn-beijing.aliyuncs.com/empty.png"-->
-<!--                /><br>-->
-<!--                这里什么也没有~~-->
-<!--            </div>-->
 
-<!--        </div>-->
+
     </div>
 </template>
 
@@ -51,7 +43,8 @@
         data(){
             return{
                 show:true,
-                paidorder:[],
+                order:[],
+
             }
         },
         methods:{
@@ -85,25 +78,48 @@
                 this.$router.push({path:'/mine'})
                 return;
             }
-            //待支付
-            if (this.type=="tobepaid"){
-                //待支付数据
-                this.$axios.get('http://localhost:1000/transaction-service/cart/gettobepaidorder?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
-                    this.paidorder = response.data;
-                    this.show = false;
-                }).catch((error) => {
-                    this.show = false;
-                    if (error.response.status == 403){
-                        this.$toast({
-                            message:"登录信息失效，请重新登录~"
-                        })
-                        this.$router.push({path:'/mine'})
-                    }else{
-                        this.$toast({
-                            message:"服务器出小差了~"
-                        })
-                    }
-                });
+            console.log(this.type)
+            switch (this.type) {
+                //待支付
+                case "tobepaid":
+                    //待支付数据
+                    this.$axios.get('http://localhost:1000/transaction-service/cart/gettobepaidorder?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
+                        this.order = response.data;
+                        this.show = false;
+                    }).catch((error) => {
+                        this.show = false;
+                        if (error.response.status == 403){
+                            this.$toast({
+                                message:"登录信息失效，请重新登录~"
+                            })
+                            this.$router.push({path:'/mine'})
+                        }else{
+                            this.$toast({
+                                message:"服务器出小差了~"
+                            })
+                        }
+                    });
+                    break;
+                //我的订单
+                case "myorder":
+                    this.$axios.get('http://localhost:1000/transaction-service/cart/getmyorder?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
+                        this.order = response.data;
+                        this.show = false;
+                    }).catch((error) => {
+                        this.show = false;
+                        if (error.response.status == 403){
+                            this.$toast({
+                                message:"登录信息失效，请重新登录~"
+                            })
+                            this.$router.push({path:'/mine'})
+                        }else{
+                            this.$toast({
+                                message:"服务器出小差了~"
+                            })
+                        }
+                    });
+                    break;
+
             }
         }
     }

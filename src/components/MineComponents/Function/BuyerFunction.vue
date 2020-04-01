@@ -30,7 +30,7 @@
                         购买记录
                     </div>
                     <div v-if="activeNumber == 4">
-                        <myallorder/>
+                        <son :type=type[4].name />
                     </div>
                     <div v-if="activeNumber == 5">
                         我的收藏
@@ -61,7 +61,13 @@
                     {name:"我的收货地址"},
                 ],
                 type:[
-                    {name:"tobepaid"},
+                    {name:"tobepaid"}, //待支付
+                    {name:"tobereceived"}, //待收货
+                    {name:"hadbuy"}, //已买到
+                    {name:"buyrecord"}, //购买记录
+                    {name:"myorder"}, //我的订单
+                    {name:"mystart"}, //我的收藏
+                    {name:"myaddress"}, //收货地址
                 ]
             }
         },
