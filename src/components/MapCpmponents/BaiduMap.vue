@@ -1,11 +1,10 @@
 <template>
     <div>
-        <van-nav-bar title="选择地点" left-arrow  @click-left="onClickLeft"/>
+        <van-nav-bar title="选择所在校园" left-arrow  @click-left="onClickLeft"/>
         <div id="map" style="width:100%;height:300px;"></div>
        <div>
-           <input type="text" v-model="city" placeholder="输入要定位的城市"/>
-           <van-button type="primary" size="large" @click="selectCity">查询城市</van-button>
-           <van-button type="info" size="large">确定</van-button>
+           <input type="text" v-model="city" placeholder="输入所在校园"/>
+           <van-button type="primary" size="large" @click="selectCity">确定</van-button>
        </div>
 
     </div>

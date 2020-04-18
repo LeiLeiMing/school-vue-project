@@ -205,3 +205,11 @@ npm install
 vim package.json  在dev 后面加上 --host 0.0.0.0
 npm run dev
 完成。
+
+vue项目持久运行
+（当前项目目录）
+which nohup
+vi ~/.bash_profile
+
+阿里云运行springboot项目
+mvn springboot:run

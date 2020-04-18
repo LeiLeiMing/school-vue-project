@@ -11,7 +11,7 @@
         >
             <!--商品卡片-->
             <router-link v-for="(g,index) in goods" :key="index" :to="'/index/onegoods/'+g.sellgoodsid">
-                <van-card :price=g.goodsprice :desc=g.goodsdesc :title=g.goodsname :thumb=g.allimageaddress[0].imageaddress />
+                <van-card :tag=g.fresh :price=g.goodsprice :desc=g.goodsdesc :title=g.goodsname :thumb=g.allimageaddress[0].imageaddress />
             </router-link>
         </van-list>
     </div>
@@ -26,7 +26,7 @@
                 finished: false,
                 mark:true,
                 /*初始页数*/
-                startpage:1,
+                startpage:0,
                 /*总页数*/
                 endpage:5,
                 /*刷新次数*/

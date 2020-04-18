@@ -12,7 +12,11 @@
         </van-swipe>
         <div>
             <van-panel>
-                <div>{{this.goodsinfo.goodsname}}</div>
+                <div>
+                    <h4>
+                        {{this.goodsinfo.goodsname}}
+                    </h4>
+                </div>
                 <div>
                     <font size="2px">
                         {{this.goodsinfo.goodsdesc}}
@@ -24,6 +28,10 @@
                     <h6>
                         浏览次数:{{this.goodsinfo.clickmount}} &nbsp &nbsp &nbsp 库存:{{this.goodsinfo.goodsmount}}
                         &nbsp &nbsp &nbsp{{this.goodsinfo.goodsaddress}}
+                    </h6>
+                    <br>
+                    <h6>
+                        {{this.goodsinfo.fresh}}
                     </h6>
                 </div>
                 <van-divider />

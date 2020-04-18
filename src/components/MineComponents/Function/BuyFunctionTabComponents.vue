@@ -20,7 +20,7 @@
             <div v-for="(g,key) in order"  :key="key" >
                 <div v-for="(order,index) in g" :key="index">
                     <router-link  :to="'/list/all/'+order.goodsPojo.sellgoodsid">
-                        <van-card :price=order.goodsPojo.goodsprice :desc=order.goodsPojo.goodsdesc tag="待支付"  :title=order.goodsPojo.goodsname  :num=order.goodsmount :thumb=order.goodsPojo.imageaddress.imageaddress  :to="'/list/all/'+g.sellgoodsid"/>
+                        <van-card :price=order.goodsPojo.goodsprice :desc=order.goodsPojo.goodsdesc  :title=order.goodsPojo.goodsname  :num=order.goodsmount :thumb=order.goodsPojo.imageaddress.imageaddress  :to="'/list/all/'+g.sellgoodsid"/>
                     </router-link>
                 </div>
                 <van-cell >

@@ -47,6 +47,23 @@
             />
         </van-popup>
         <!--/商品分类-->
+        <!--商品成色-->
+        <van-field
+                readonly
+                clickable
+                label="商品新旧程度"
+                :value="fresh"
+                placeholder="选择成色"
+                @click="showPicker2 = true"
+        />
+        <van-popup v-model="showPicker2" position="bottom">
+            <van-picker
+                    show-toolbar
+                    :columns="columns2"
+                    @cancel="showPicker2 = false"
+                    @confirm="onConfirm2"
+            />
+        </van-popup>
         <!--商品价格-->
         <van-cell-group>
             <van-field
@@ -126,8 +143,11 @@
                 filecode:[],
                 /*商品分类栏数据*/
                 value: '',  //商品分类
+                fresh: '',  //商品分类
                 showPicker: false,
+                showPicker2: false,
                 columns: ['学习用品', '体育用品', '生活用品', '电脑', '手机','衣服','鞋子','家具电器','单车电车','手办'],
+                columns2: ['全新', '九成新', '八成新', '七成新', '六成新','五成新','四成新','三成新','祖传成色'],
                 /*是否包邮*/
                 joyou: true,
                 /*是否可议价*/
@@ -164,6 +184,10 @@
                 this.value = value;
                 this.showPicker = false;
             },
+            onConfirm2(value) {
+                this.fresh = value;
+                this.showPicker2 = false;
+            },
             //接收来自子组件的地址数据:data为地址对象，show为关闭选择栏
             addressSon(data,show){
                 this.show = show;
@@ -180,6 +204,12 @@
                 if (this.value === ''){
                     this.$toast({
                         message:"请选择分类"
+                    });
+                    return;
+                }
+                if (this.fresh === ''){
+                    this.$toast({
+                        message:"请输入商品成色哦"
                     });
                     return;
                 }
@@ -279,6 +309,7 @@
                 this.$axios.post('http://localhost:9090/goods/sell?'
                     + 'goodsname='+this.goodsname
                     + '&goodstype='+this.value
+                    + '&fresh='+this.fresh
                     + '&goodsprice='+this.price
                     + '&goodsmount='+this.mount
                     + '&nogotable='+this.bargaining

@@ -1,7 +1,7 @@
 <!--购物车页面-->
 <template>
     <div>
-        <van-nav-bar title="购物车"/>
+        <van-nav-bar title="我的购物车"/>
         <!--加载栏-->
         <van-overlay :show="show" >
             <div class="wrapper" @click.stop>

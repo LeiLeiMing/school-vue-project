@@ -25,7 +25,7 @@
                     { text: '销量最多', value: 'b' },
                 ],
                 option3: [
-                    { text: '默认时间', value: 'A'},
+                    { text: '默认售卖时间', value: 'A'},
                     { text: '时间降序', value: 'B' },
                 ],
             }

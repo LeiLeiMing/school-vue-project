@@ -34,9 +34,15 @@
                 <van-tab title="精选" ><indexrecommendnew /></van-tab>
             </van-tabs>
         </div>
-        <!--底部文字-->
+        <!--校园动态-->
+        <div id="schoolday">
+            <h4 class="title">校园动态</h4>
+
+        </div>
         <div>
-            <van-divider>到底啦~~</van-divider>
+            <a>
+                <van-divider>查看更多动态+</van-divider>
+            </a>
         </div><br><br>
         <!--底部tab栏-->
         <!--把amount传给子组件展示-->
@@ -88,5 +94,8 @@
         line-height: 1.3125rem;
         vertical-align: middle;
         font-size: 1.1875rem;
+    }
+    #schoolday{
+        height: 400px;
     }
 </style>
