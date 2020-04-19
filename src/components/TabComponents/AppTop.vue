@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div style="width: 67%;float:right;height: 60px;">
-                <van-field placeholder="输入要搜索的二手物品名称" />
+                <van-field placeholder="输入要搜索的二手物品名称" v-model="keyvalue" v-on:keyup.enter="searchbykey(keyvalue)"/>
             </div>
         </van-sticky>
     </div>
@@ -20,12 +20,22 @@
     export default {
         data(){
             return{
+                keyvalue:'',
                 key:'',
                 searchgoods:[
                 ]
             }
         },
         methods:{
+            searchbykey:function (keyvalue) {
+               //发送搜索请求
+                this.$axios.get('http://localhost:1000/project-service/goods/searchbykey?keyvalue='+keyvalue).then((response) => {
+                    //跳转页面
+                    console.log(response.data)
+                }).catch((error) => {
+
+                });
+            }
         }
     }
 </script>

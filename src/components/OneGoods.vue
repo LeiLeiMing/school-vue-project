@@ -36,7 +36,7 @@
                 </div>
                 <van-divider />
                 <div v-if="this.goodsinfo.baoyou == 1">
-                    <h6>此商品包邮，七天无忧退换</h6>
+                    <h6>包邮</h6>
                 </div>
                 <div v-if="this.goodsinfo.baoyou == 0">
                     <h6>此商品不支持包邮</h6>

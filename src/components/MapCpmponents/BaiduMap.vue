@@ -4,7 +4,8 @@
         <div id="map" style="width:100%;height:300px;"></div>
        <div>
            <input type="text" v-model="city" placeholder="输入所在校园"/>
-           <van-button type="primary" size="large" @click="selectCity">确定</van-button>
+           <van-button type="info" size="large" @click="selectCity">搜索</van-button>
+           <van-button type="primary" size="large" @click="select">确定</van-button>
        </div>
 
     </div>
@@ -43,6 +44,10 @@
                 /*返回上一页*/
                 this.$router.go(-1)
             },
+            select(){
+               //将当前用户选择的学校存进数据库
+
+            }
         },
         /*页面加载完成时加载地图*/
         mounted() {

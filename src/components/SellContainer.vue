@@ -110,7 +110,7 @@
         <van-uploader v-model="indexfileList" :before-read="beforeRead"  :max-count="3"  multiple />
         <h5>上传商品详情图片（3张以内）</h5>
         <van-uploader v-model="fileList"  :before-read="beforeRead"  :max-count="3"  multiple />
-        <h5>商品发货地点</h5>
+        <h5>商品所在地</h5>
         <van-button type="primary" icon="location-o" @click="showClick" size="large">{{selectaddress}}</van-button>
         <van-popup
             v-model="show"
@@ -132,7 +132,7 @@
         data() {
             return {
                 loadingshow:false,
-                selectaddress:'选择发货地点',
+                selectaddress:'选择商品所在地',
                 price:'', //价格
                 mount:'', //数量
                 goodsname:'', //商品名称
@@ -191,7 +191,7 @@
             //接收来自子组件的地址数据:data为地址对象，show为关闭选择栏
             addressSon(data,show){
                 this.show = show;
-                this.selectaddress = data[0].name+data[1].name+data[2].name;
+                this.selectaddress = data[0].name+data[1].name;
             },
             checkvvalue:function(){
                 //校验内容

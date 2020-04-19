@@ -79,9 +79,8 @@
                 //console.log(data)
             }
         },
-        /*页面加载完毕时从数据库获取最新的amount*/
         mounted() {
-
+            /*获取用户选择的学校*/
         }
     }
 </script>

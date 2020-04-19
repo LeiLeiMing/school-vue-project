@@ -1,9 +1,7 @@
 <!--全部商品页面-->
 <template>
     <div>
-        <van-sticky :offset-top="0">
-           <toptab />
-        </van-sticky>
+        <toptab></toptab>
         <!--筛选栏-->
         <van-sticky :offset-top="50">
             <dropdownmenu></dropdownmenu>

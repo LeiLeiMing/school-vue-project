@@ -1,6 +1,6 @@
 <template>
     <div>
-        <van-area :area-list="areaList"  @cancel="fromFather" @confirm="select"/>
+        <van-area :area-list="areaList"  :columns-num="2"  @cancel="fromFather" @confirm="select"/>
     </div>
 </template>
 <script>
