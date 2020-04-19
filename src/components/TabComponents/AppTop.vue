@@ -28,13 +28,11 @@
         },
         methods:{
             searchbykey:function (keyvalue) {
+                this.$router.push({
+                    path: '/search/'+keyvalue,
+                })
                //发送搜索请求
-                this.$axios.get('http://localhost:1000/project-service/goods/searchbykey?keyvalue='+keyvalue).then((response) => {
-                    //跳转页面
-                    console.log(response.data)
-                }).catch((error) => {
 
-                });
             }
         }
     }
