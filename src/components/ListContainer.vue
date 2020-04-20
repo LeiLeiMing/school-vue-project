@@ -43,21 +43,22 @@
         data(){
             return{
                 /*筛选栏数据*/
-                value1: 0,
-                value2: 'a',
-                value3: 'A',
+                value1: 'defaultprice',
+                value2: 'defaultsell',
+                value3: 'defaulttime',
                 option1: [
-                    { text: '综合', value: 0 },
-                    { text: '价格降序', value: 1 },
-                    { text: '价格升序', value: 2 }
+                    { text: '默认价格', value: 'defaultprice' },
+                    { text: '价格高到低', value: 'pricedesc' },
+                    { text: '价格低到高', value: 'priceasc' }
                 ],
                 option2: [
-                    { text: '默认销量', value: 'a'},
-                    { text: '销量最多', value: 'b' },
+                    { text: '默认浏览数', value: 'defaultsell'},
+                    { text: '浏览最多', value: 'selldesc'},
                 ],
                 option3: [
-                    { text: '默认售卖时间', value: 'A'},
-                    { text: '时间降序', value: 'B' },
+                    { text: '默认时间', value: 'defaulttime'},
+                    { text: '时间降序', value: 'timedesc' },
+                    { text: '时间升序', value: 'timeasc' },
                 ],
                 /*商品列表数据*/
                 goods:[],
@@ -81,13 +82,43 @@
         },
         methods:{
             oneclick(value){
-                console.log(value)
+                    this.value2= 'defaultsell'
+                    this.value3= 'defaulttime'
+                    this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?startpage='
+                        + this.startpage+'&endpage='+this.endpage
+                        +'&condition1='+this.value1
+                        +'&condition2='+this.value2
+                        +'&condition3='+this.value3).then((response) => {
+                        this.goods = response.data
+                        console.log(this.goods)
+                    }).catch((error) => {
+                    });
             },
             twoclick(value){
-                console.log(value)
+                this.value1 = 'defaultprice'
+                this.value3 = 'defaulttime'
+                this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?startpage='
+                    + this.startpage+'&endpage='+this.endpage
+                    +'&condition1='+this.value1
+                    +'&condition2='+this.value2
+                    +'&condition3='+this.value3).then((response) => {
+                    this.goods = response.data
+                    console.log(this.goods)
+                }).catch((error) => {
+                });
             },
             threeclick(value){
-                console.log(value)
+                this.value1 = 'defaultprice'
+                this.value2 = 'defaultsell'
+                this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?startpage='
+                    + this.startpage+'&endpage='+this.endpage
+                    +'&condition1='+this.value1
+                    +'&condition2='+this.value2
+                    +'&condition3='+this.value3).then((response) => {
+                    this.goods = response.data
+                    console.log(this.goods)
+                }).catch((error) => {
+                });
             },
             onLoad() {
                 // 异步更新数据
@@ -101,7 +132,12 @@
                         this.goodslength = response.data
                     }).catch((error) => {});
                     //获取当前序列往后5条数据
-                    this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?startpage='+this.startpage+'&endpage='+this.endpage).then((response) => {
+                    this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?startpage='
+                        + this.startpage+'&endpage='+this.endpage
+                        +'&condition1='+this.value1
+                        +'&condition2='+this.value2
+                        +'&condition3='+this.value3
+                    ).then((response) => {
                         //length = this.response.data.length;
                         for (var i = 0;i<response.data.length;i++){
                             this.goods.push(response.data[i])
@@ -116,9 +152,13 @@
                 }, 500);
             },
         },
-        //获取初始十条数据
+        //获取初始5条数据
         mounted() {
-            this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?startpage='+this.startpage+'&endpage='+this.endpage).then((response) => {
+            this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?startpage='
+                + this.startpage+'&endpage='+this.endpage
+                +'&condition1='+this.value1
+                +'&condition2='+this.value2
+                +'&condition3='+this.value3).then((response) => {
                 this.goods = response.data
             }).catch((error) => {
             });

@@ -35,21 +35,22 @@
             return{
                 keyvalue:'',
                 searchlist:[],
-                value1: 0,
-                value2: 'a',
-                value3: 'A',
+                value1: 'defaultprice',
+                value2: 'defaultsell',
+                value3: 'defaulttime',
                 option1: [
-                    { text: '综合', value: 0 },
-                    { text: '价格降序', value: 1 },
-                    { text: '价格升序', value: 2 }
+                    { text: '默认价格', value: 'defaultprice' },
+                    { text: '价格高到低', value: 'pricedesc' },
+                    { text: '价格低到高', value: 'priceasc' }
                 ],
                 option2: [
-                    { text: '默认销量', value: 'a'},
-                    { text: '销量最多', value: 'b' },
+                    { text: '默浏览数', value: 'defaultsell'},
+                    { text: '浏览最多', value: 'selldesc'},
                 ],
                 option3: [
-                    { text: '默认售卖时间', value: 'A'},
-                    { text: '时间降序', value: 'B' },
+                    { text: '默认时间', value: 'defaulttime'},
+                    { text: '时间降序', value: 'timedesc' },
+                    { text: '时间升序', value: 'timeasc' },
                 ],
             }
         },
@@ -61,26 +62,49 @@
                 this.$router.go(-1)
             },
             oneclick(value){
-                //条件筛选
-                this.$axios.get('http://localhost:1000/project-service/goods/searchbykey?condition1='+value).then((response) => {
-                    this.searchlist = response.data;
+                this.value2= 'defaultsell'
+                this.value3= 'defaulttime'
+                this.$axios.get('http://localhost:1000/project-service/goods/searchbykey?keyvalue='+this.keyvalue
+                    +'&condition1='+this.value1
+                    +'&condition2='+this.value2
+                    +'&condition3='+this.value3).then((response) => {
+                    this.searchlist = response.data
                     console.log(this.searchlist)
-                    console.log(this.searchlist[0])
                 }).catch((error) => {
-
                 });
             },
             twoclick(value){
-                console.log(value)
+                this.value1 = 'defaultprice'
+                this.value3 = 'defaulttime'
+                this.$axios.get('http://localhost:1000/project-service/goods/searchbykey?keyvalue='+this.keyvalue
+                    +'&condition1='+this.value1
+                    +'&condition2='+this.value2
+                    +'&condition3='+this.value3).then((response) => {
+                    this.searchlist = response.data
+                    console.log(this.searchlist)
+                }).catch((error) => {
+                });
             },
             threeclick(value){
-                console.log(value)
-            }
+                this.value1 = 'defaultprice'
+                this.value2 = 'defaultsell'
+                this.$axios.get('http://localhost:1000/project-service/goods/searchbykey?keyvalue=' +this.keyvalue
+                    +'&condition1='+this.value1
+                    +'&condition2='+this.value2
+                    +'&condition3='+this.value3).then((response) => {
+                    this.searchlist = response.data
+                    console.log(this.searchlist)
+                }).catch((error) => {
+                });
+            },
         },
         mounted() {
             /*搜索的关键字*/
             this.keyvalue = this.$route.params.keyvalue;
-            this.$axios.get('http://localhost:1000/project-service/goods/searchbykey?keyvalue='+this.keyvalue).then((response) => {
+            this.$axios.get('http://localhost:1000/project-service/goods/searchbykey?keyvalue='+this.keyvalue
+                +'&condition1='+this.value1
+                +'&condition2='+this.value2
+                +'&condition3='+this.value3).then((response) => {
                 this.searchlist = response.data;
             }).catch((error) => {
 
