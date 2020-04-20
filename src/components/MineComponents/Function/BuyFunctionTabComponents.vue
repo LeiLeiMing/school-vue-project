@@ -17,7 +17,8 @@
         </van-overlay>
 
         <div>
-            <div v-for="(g,key) in order"  :key="key" >
+            <!--待发货和我的订单-->
+            <div v-if="type=='tobepaid'||type=='myorder'" v-for="(g,key) in order"  :key="key" >
                 <div v-for="(order,index) in g" :key="index">
                     <router-link  :to="'/list/all/'+order.goodsPojo.sellgoodsid">
                         <van-card :price=order.goodsPojo.goodsprice :desc=order.goodsPojo.goodsdesc  :title=order.goodsPojo.goodsname  :num=order.goodsmount :thumb=order.goodsPojo.imageaddress.imageaddress  :to="'/list/all/'+g.sellgoodsid"/>
@@ -29,6 +30,18 @@
                         <van-button type="danger" round >立即支付</van-button>
                     </div>
                 </van-cell>
+            </div>
+            <!--待收货-->
+            <div v-if="type=='tobereceived'" v-for="(o,index) in order" :key="index">
+                <router-link  :to="'/list/all/'+o.goodsPojo.sellgoodsid">
+                    <van-card :price=o.goodsPojo.goodsprice :desc=o.goodsPojo.goodsdesc  :title=o.goodsPojo.goodsname  :num=o.goodsmount :thumb=o.goodsPojo.imageaddress.imageaddress  :to="'/list/all/'+o.sellgoodsid"/>
+                </router-link>
+            </div>
+            <!--已买到-->
+            <div v-if="type=='tobereceived'" v-for="(o,index) in order" :key="index">
+                <router-link  :to="'/list/all/'+o.goodsPojo.sellgoodsid">
+                    <van-card :price=o.goodsPojo.goodsprice :desc=o.goodsPojo.goodsdesc  :title=o.goodsPojo.goodsname  :num=o.goodsmount :thumb=o.goodsPojo.imageaddress.imageaddress  :to="'/list/all/'+o.sellgoodsid"/>
+                </router-link>
             </div>
         </div>
 
@@ -100,6 +113,46 @@
                         }
                     });
                     break;
+                //待收货
+                case "tobereceived":
+                    //待支付数据
+                    this.$axios.get('http://localhost:1000/transaction-service/cart/gettobereceived?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
+                        this.order = response.data;
+                        console.log(this.order)
+                        this.show = false;
+                    }).catch((error) => {
+                        this.show = false;
+                        if (error.response.status == 403){
+                            this.$toast({
+                                message:"登录信息失效，请重新登录~"
+                            })
+                            this.$router.push({path:'/mine'})
+                        }else{
+                            this.$toast({
+                                message:"服务器出小差了~"
+                            })
+                        }
+                    });
+                    break;
+                //已买到
+                case "hadbuy":
+                    this.$axios.get('http://localhost:1000/transaction-service/cart/gethadbuy?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
+                        this.order = response.data;
+                        this.show = false;
+                    }).catch((error) => {
+                        this.show = false;
+                        if (error.response.status == 403){
+                            this.$toast({
+                                message:"登录信息失效，请重新登录~"
+                            })
+                            this.$router.push({path:'/mine'})
+                        }else{
+                            this.$toast({
+                                message:"服务器出小差了~"
+                            })
+                        }
+                    });
+                    break;
                 //我的订单
                 case "myorder":
                     this.$axios.get('http://localhost:1000/transaction-service/cart/getmyorder?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
@@ -119,6 +172,7 @@
                         }
                     });
                     break;
+
 
             }
         }

@@ -15,21 +15,21 @@
                       title-active-color="red"
                       animated:yes>
                 <van-tab v-for="(seller,index) in buyerfunction" :key="index" :title=seller.name>
-                    <div v-if="activeNumber == 0">
+                    <div v-show="activeNumber == 0">
                         <!--待发货-->
                         <son :typevalue=type[0].name />
                     </div>
-                    <div v-if="activeNumber == 1">
+                    <div v-show="activeNumber == 1">
                         <son :typevalue=type[1].name />
                     </div>
-                    <div v-if="activeNumber == 2">
+                    <div v-show="activeNumber == 2">
                         <son :typevalue=type[2].name />
                     </div>
-                    <div v-if="activeNumber == 3">
+                    <div v-show="activeNumber == 3">
                         <!--已上架-->
                         <son :typevalue=type[3].name />
                     </div>
-                    <div v-if="activeNumber == 4">
+                    <div v-show="activeNumber == 4">
                         <son :typevalue=type[4].name />
                     </div>
                 </van-tab>
