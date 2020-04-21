@@ -19,6 +19,7 @@ import map from './components/MapCpmponents/BaiduMap.vue'
 import useraddress from './components/MineComponents/UserAddress.vue'
 import paysuccess from './components/BuyGoodsComponents/OrderPaySuccess.vue'
 import search from './components/SearchListComponents/SearchList.vue'
+import fahuo from './components/SellComponents/fahuo.vue'
 var router = new VueRouter({
     routes:[
         /*默认访问组件*/
@@ -42,6 +43,7 @@ var router = new VueRouter({
         {path:'/mine/useraddress',component:useraddress},
         {path:'/paysuccess',component:paysuccess},
         {path:'/search/:keyvalue',component:search},
+        {path:'/sell/fahuo/:id/:orderid',component:fahuo},
     ],
     /*路由高亮*/
     linkActiveClass: 'mui-active',/*MUI的高亮*/

@@ -17,7 +17,7 @@
         </van-overlay>
 
         <!--已上架-->
-        <div v-if="typevalue=='onsell'" v-for="(g,index) in groundinggoods"  :key="index" >
+        <div v-show="typevalue=='onsell'" v-for="(g,index) in groundinggoods"  :key="index" >
             <div>
                 <router-link  :to="'/list/all/'+g.sellgoodsid">
                     <van-card :price=g.goodsprice :desc=g.goodsdesc  :title=g.goodsname  :num=g.goodsmount :thumb=g.imageaddress.imageaddress  :to="'/list/all/'+g.sellgoodsid"/>
@@ -26,7 +26,7 @@
         </div>
 
         <!--待发货-->
-        <div v-if="typevalue=='tobeshiped'" v-for="(goods,index) in ordervalue" :key="index">
+        <div v-show="typevalue=='tobeshiped'" v-for="(goods,index) in ordervalue" :key="index">
             <van-swipe-cell>
                 <van-card
                         :num=goods.goodsmount
@@ -48,25 +48,34 @@
                 <br>
                 <div style="float: right">
                     <van-button type="default" round >协商退单</van-button>
-                    <van-button type="info" round >查看详情</van-button>
-                    <van-button type="danger" round >安排发货</van-button>
+                    <van-button type="danger" round v-on:click="fahuo(goods.goodsPojo.sellgoodsid,goods.orderid)" >安排发货</van-button>
                 </div>
             </van-cell>
         </div>
 
         <!--已发货-->
-        <div v-if="typevalue=='hadshiped'">
-            已发货
+        <div v-show="typevalue=='hadshiped'">
+            <div v-show="typevalue=='hadshiped'" v-for="(g,index) in ordervalue"  :key="index" >
+                <div>
+                    <router-link  :to="'/list/all/'+g.goodsid">
+                        <van-card :price=g.goodsPojo.goodsprice :desc=g.goodsPojo.goodsdesc  :title=g.goodsPojo.goodsname  :num=g.goodsmount :thumb=g.goodsPojo.imageaddress.imageaddress  />
+                    </router-link>
+                </div>
+            </div>
         </div>
 
         <!--已售出-->
         <div v-if="typevalue=='hadsell'">
-            已售出
+            <a>
+                <van-divider>功能开发中--</van-divider>
+            </a>
         </div>
 
         <!--收到的议价-->
         <div v-if="typevalue=='takeprice'">
-            收到的议价
+            <a>
+                <van-divider>功能开发中--</van-divider>
+            </a>
         </div>
 
     </div>
@@ -82,9 +91,15 @@
                 ordervalue:[],
             }
         },
+        methods:{
+            fahuo(id,orderid){
+                this.$router.push({
+                    path: '/sell/fahuo/'+id+'/'+orderid
+                })
+            }
+        },
         //查询当前用户下的已经出售的商品
         mounted() {
-            console.log(this.typevalue)
             if (this.$cookies.get("AUTH_TOKEN")==null){
                 this.$toast({
                     message:"登录信息失效，请重新登录~"
@@ -131,7 +146,24 @@
                 });
             }
             if (this.typevalue=="hadshiped"){
-                this.show = false;
+                this.$axios.get('http://localhost:1000/transaction-service/cart/getshiped?token='+this.$cookies.get("AUTH_TOKEN")).then((response) => {
+                    this.ordervalue = response.data;
+                    console.log(this.ordervalue)
+                    this.show = false;
+                }).catch((error) => {
+                    this.show = false;
+                    if (error.response.status == 403){
+                        this.$toast({
+                            message:"登录信息失效，请重新登录~"
+                        })
+                        this.$router.push({path:'/mine'})
+                    }else{
+                        this.$toast({
+                            message:"服务器出小差了~"
+                        })
+                    }
+                });
+
             }
 
             if (this.typevalue=="hadsell"){

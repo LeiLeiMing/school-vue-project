@@ -29,7 +29,9 @@
                         <son :type=type[3].name />
                     </div>
                     <div v-show="activeNumber == 4">
-                        我的收藏
+                        <a>
+                            <van-divider>功能开发中--</van-divider>
+                        </a>
                     </div>
 
                 </van-tab>

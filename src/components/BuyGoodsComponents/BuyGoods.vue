@@ -43,6 +43,7 @@
                 count:1,
                 orderleavemessage:'',
                 chosenAddressId: '1',
+                addressid:"",
                 id:"",
                 name:"",
                 tel:"",
@@ -107,6 +108,7 @@
                             +'&orderleavemessage='+this.orderleavemessage
                             +'&orderid='+outTradeNo
                             +'&orderaddress='+this.list[0].address
+                            +'&addressid='+this.addressid
                         ).then((response) => {
                         }).catch((error) => {
 
@@ -146,6 +148,7 @@
             });
             //获取当前用户下的收货地址
             this.$axios.get('http://localhost:1000/project-service/goods/getaddress?token=' + this.$cookies.get("AUTH_TOKEN")).then((response) => {
+                this.addressid = response.data[0].id;
                 this.id = response.data[0].selectid;
                 this.name=response.data[0].username;
                 this.tel = response.data[0].usertel;
