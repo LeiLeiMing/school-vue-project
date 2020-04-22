@@ -8,6 +8,7 @@ import list from './components/ListContainer.vue'
 import onegoods from './components/OneGoods.vue'
 import buygoods from './components/BuyGoodsComponents/BuyGoods.vue'
 import selectaddress from './components/BuyAddressSelect/ReceivingAddress.vue'
+import changeaddress from './components/BuyAddressSelect/ChangeAddress.vue'
 import sell from './components/SellContainer.vue'
 import minesetting from './components/MineComponents/MineSetting.vue'
 import sort from './components/SortGoodsComponents/Sort.vue'
@@ -30,6 +31,7 @@ var router = new VueRouter({
         {path: '/mine',component:mine},
         {path: '/buygoods',component:buygoods},
         {path: '/buygoods/selectaddress',component:selectaddress},
+        {path: '/buygoods/changeaddress',component:changeaddress},
         {path: '/sell',component:sell},
         {path: '/list/all/:id',component:onegoods},
         {path: '/index/onegoods/:id',component:onegoods},

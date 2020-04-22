@@ -57,7 +57,7 @@
                 this.$router.go(-1)
             },
             onChange() {
-                this.$router.push({path:'/buygoods/selectaddress'})
+                this.$router.push({path:'/buygoods/changeaddress'})
             },
             reduce: function (index) {
                 if (this.count == 0) {

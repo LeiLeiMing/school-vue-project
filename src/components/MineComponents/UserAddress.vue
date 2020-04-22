@@ -8,7 +8,7 @@
         </div>
         <div v-if="this.list.length == 0">
             <van-divider>暂无收货地址</van-divider>
-            <van-button type="danger" size="large" to="/buygoods/selectaddress">添加收货地址</van-button>
+            <van-button type="danger" size="large"  to="/buygoods/selectaddress">添加收货地址</van-button>
         </div>
     </div>
 </template>
@@ -30,6 +30,9 @@
             onClickLeft:function () {
                 /*返回上一页*/
                 this.$router.go(-1)
+            },
+            onChange(){
+                this.$router.push({path:'/buygoods/changeaddress'})
             }
         },
         mounted() { //获取当前用户下的收货地址
