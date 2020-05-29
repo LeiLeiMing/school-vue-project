@@ -40,8 +40,8 @@
                 value3: 'defaulttime',
                 option1: [
                     { text: '默认价格', value: 'defaultprice' },
-                    { text: '价格高到低', value: 'pricedesc' },
-                    { text: '价格低到高', value: 'priceasc' }
+                    { text: '价格低到高', value: 'pricedesc' },
+                    { text: '价格高到低', value: 'priceasc' }
                 ],
                 option2: [
                     { text: '默浏览数', value: 'defaultsell'},

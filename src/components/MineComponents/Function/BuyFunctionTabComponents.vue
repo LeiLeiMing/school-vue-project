@@ -41,11 +41,11 @@
             </div>
 
             <!--已买到-->
-            <div v-if="type=='tobereceived'" v-for="(o,index) in order" :key="index">
-                <router-link  :to="'/list/all/'+o.goodsPojo.sellgoodsid">
-                    <van-card :price=o.goodsPojo.goodsprice :desc=o.goodsPojo.goodsdesc  :title=o.goodsPojo.goodsname  :num=o.goodsmount :thumb=o.goodsPojo.imageaddress.imageaddress  :to="'/list/all/'+o.sellgoodsid"/>
-                </router-link>
-            </div>
+<!--            <div v-if="type=='tobereceived'" v-for="(o,index) in order" :key="index">-->
+<!--                <router-link  :to="'/list/all/'+o.goodsPojo.sellgoodsid">-->
+<!--                    <van-card :price=o.goodsPojo.goodsprice :desc=o.goodsPojo.goodsdesc  :title=o.goodsPojo.goodsname  :num=o.goodsmount :thumb=o.goodsPojo.imageaddress.imageaddress  :to="'/list/all/'+o.sellgoodsid"/>-->
+<!--                </router-link>-->
+<!--            </div>-->
         </div>
 
 

@@ -84,9 +84,8 @@
             oneclick(value){
                     this.value2= 'defaultsell'
                     this.value3= 'defaulttime'
-                    this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?startpage='
-                        + this.startpage+'&endpage='+this.endpage
-                        +'&condition1='+this.value1
+                    this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?'
+                        +'condition1='+this.value1
                         +'&condition2='+this.value2
                         +'&condition3='+this.value3).then((response) => {
                         this.goods = response.data
@@ -97,9 +96,8 @@
             twoclick(value){
                 this.value1 = 'defaultprice'
                 this.value3 = 'defaulttime'
-                this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?startpage='
-                    + this.startpage+'&endpage='+this.endpage
-                    +'&condition1='+this.value1
+                this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?'
+                    +'condition1='+this.value1
                     +'&condition2='+this.value2
                     +'&condition3='+this.value3).then((response) => {
                     this.goods = response.data
@@ -110,9 +108,8 @@
             threeclick(value){
                 this.value1 = 'defaultprice'
                 this.value2 = 'defaultsell'
-                this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?startpage='
-                    + this.startpage+'&endpage='+this.endpage
-                    +'&condition1='+this.value1
+                this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?'
+                    +'condition1='+this.value1
                     +'&condition2='+this.value2
                     +'&condition3='+this.value3).then((response) => {
                     this.goods = response.data
@@ -128,16 +125,16 @@
                     this.startpage = this.mount*5
                     this.endpage = this.startpage + 5;
                     //获取总条数
+                    console.log('调用了');
                     this.$axios.get('http://localhost:1000/project-service/goods/getgoodsmount').then((response) => {
                         this.goodslength = response.data
+                        console.log(this.goodslength);
                     }).catch((error) => {});
                     //获取当前序列往后5条数据
-                    this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?startpage='
+                    this.$axios.get('http://localhost:1000/project-service/goods/getlimitgoods_index?startpage='
                         + this.startpage+'&endpage='+this.endpage
-                        +'&condition1='+this.value1
-                        +'&condition2='+this.value2
-                        +'&condition3='+this.value3
                     ).then((response) => {
+                        // console.log(endende);
                         //length = this.response.data.length;
                         for (var i = 0;i<response.data.length;i++){
                             this.goods.push(response.data[i])
@@ -154,11 +151,9 @@
         },
         //获取初始5条数据
         mounted() {
-            this.$axios.get('http://localhost:1000/project-service/goods/getgoodslimit?startpage='
+            this.$axios.get('http://localhost:1000/project-service/goods/getlimitgoods_index?startpage='
                 + this.startpage+'&endpage='+this.endpage
-                +'&condition1='+this.value1
-                +'&condition2='+this.value2
-                +'&condition3='+this.value3).then((response) => {
+               ).then((response) => {
                 this.goods = response.data
             }).catch((error) => {
             });
